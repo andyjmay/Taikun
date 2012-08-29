@@ -1,0 +1,32 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Express 2012 for Web
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Taikun", "Taikun\Taikun.csproj", "{CE636EE4-B8F2-42A3-AFDB-265DB7091C27}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Taikun.SqlServer", "Taikun.SqlServer\Taikun.SqlServer.csproj", "{8E917391-AB1D-43E4-BF19-5D40D53D8E8F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Taikun.SqlServer.Tests", "Taikun.SqlServer.Tests\Taikun.SqlServer.Tests.csproj", "{C7653882-F25D-4D90-AC15-17C790BBFDF4}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{CE636EE4-B8F2-42A3-AFDB-265DB7091C27}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CE636EE4-B8F2-42A3-AFDB-265DB7091C27}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CE636EE4-B8F2-42A3-AFDB-265DB7091C27}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CE636EE4-B8F2-42A3-AFDB-265DB7091C27}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8E917391-AB1D-43E4-BF19-5D40D53D8E8F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8E917391-AB1D-43E4-BF19-5D40D53D8E8F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8E917391-AB1D-43E4-BF19-5D40D53D8E8F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8E917391-AB1D-43E4-BF19-5D40D53D8E8F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C7653882-F25D-4D90-AC15-17C790BBFDF4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C7653882-F25D-4D90-AC15-17C790BBFDF4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C7653882-F25D-4D90-AC15-17C790BBFDF4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C7653882-F25D-4D90-AC15-17C790BBFDF4}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
