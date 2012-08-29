@@ -1,11 +1,18 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Express 2012 for Web
+# Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Taikun", "Taikun\Taikun.csproj", "{CE636EE4-B8F2-42A3-AFDB-265DB7091C27}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Taikun.SqlServer", "Taikun.SqlServer\Taikun.SqlServer.csproj", "{8E917391-AB1D-43E4-BF19-5D40D53D8E8F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Taikun.SqlServer.Tests", "Taikun.SqlServer.Tests\Taikun.SqlServer.Tests.csproj", "{C7653882-F25D-4D90-AC15-17C790BBFDF4}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{6CEBAB23-650A-4BDB-A029-F41DAD0A2BD3}"
+	ProjectSection(SolutionItems) = preProject
+		.nuget\NuGet.Config = .nuget\NuGet.Config
+		.nuget\NuGet.exe = .nuget\NuGet.exe
+		.nuget\NuGet.targets = .nuget\NuGet.targets
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
