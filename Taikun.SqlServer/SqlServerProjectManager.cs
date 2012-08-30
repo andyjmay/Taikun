@@ -9,6 +9,11 @@ namespace Taikun.SqlServer {
   public class SqlServerProjectManager : IProjectManager {
     private SqlConnectionStringBuilder connectionStringBuilder;
 
+    /// <summary>
+    /// Creates a new SQL Server Project Manager instance
+    /// </summary>
+    /// <param name="connectionString">The connection string</param>
+    /// <param name="createIfNotExists">If true, the Taikun database is created if it doesn't already exist</param>
     public SqlServerProjectManager(string connectionString, bool createIfNotExists = false) {
       connectionStringBuilder = new SqlConnectionStringBuilder(connectionString);
       if (createIfNotExists && !databaseExists(connectionStringBuilder.InitialCatalog)) {
