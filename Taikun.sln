@@ -14,6 +14,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{6CEBAB
 		.nuget\NuGet.targets = .nuget\NuGet.targets
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Taikun.Demo.WPF", "Taikun.Demo.WPF\Taikun.Demo.WPF.csproj", "{7EBCBB87-2AD5-4260-86C8-98B648F9F5BB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -32,6 +34,10 @@ Global
 		{C7653882-F25D-4D90-AC15-17C790BBFDF4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C7653882-F25D-4D90-AC15-17C790BBFDF4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C7653882-F25D-4D90-AC15-17C790BBFDF4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7EBCBB87-2AD5-4260-86C8-98B648F9F5BB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7EBCBB87-2AD5-4260-86C8-98B648F9F5BB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7EBCBB87-2AD5-4260-86C8-98B648F9F5BB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7EBCBB87-2AD5-4260-86C8-98B648F9F5BB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
