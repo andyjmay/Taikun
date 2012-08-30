@@ -7,5 +7,8 @@ namespace Taikun {
     IProject CreateProject(IProject project);    
     IProject UpdateProject(IProject project);
     void DeleteProject(IProject project);
+
+    void CreateProjectTable(IProject project, IProjectTable projectTable);
+    void DeleteProjectTable(IProject project, IProjectTable projectTable);
   }
 }

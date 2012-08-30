@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Linq;
 using System.Data.SqlClient;
+using System.Data;
 
 namespace Taikun.SqlServer.Tests {
   [TestClass]

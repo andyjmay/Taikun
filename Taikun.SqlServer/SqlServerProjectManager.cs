@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.Text;
+using Taikun.SqlServer.Helpers;
 
 namespace Taikun.SqlServer {
   public class SqlServerProjectManager : IProjectManager {
@@ -21,6 +23,10 @@ namespace Taikun.SqlServer {
       }
     }
 
+    /// <summary>
+    /// Gets all Projects
+    /// </summary>
+    /// <returns></returns>
     public IEnumerable<IProject> GetAllProjects() {
       var projects = new List<IProject>();
       string queryString = "SELECT ID, DatabaseName, Description FROM Projects";
@@ -42,6 +48,11 @@ namespace Taikun.SqlServer {
       return projects;
     }
 
+    /// <summary>
+    /// Gets the specified project
+    /// </summary>
+    /// <param name="databaseName"></param>
+    /// <returns></returns>
     public IProject GetProject(string databaseName) {
       string queryString = "SELECT ID, DatabaseName, Description FROM Projects WHERE DatabaseName=@DatabaseName";
 
@@ -60,6 +71,11 @@ namespace Taikun.SqlServer {
       }
     }
 
+    /// <summary>
+    /// Creates a new Project
+    /// </summary>
+    /// <param name="project">The Project to create</param>
+    /// <returns></returns>
     public IProject CreateProject(IProject project) {
       string insertCommand = "INSERT INTO Projects (DatabaseName, Description) Values (@DatabaseName, @Description); SELECT SCOPE_IDENTITY()";
       createDatabase(project.DatabaseName);
@@ -78,11 +94,15 @@ namespace Taikun.SqlServer {
       }
     }
 
+    /// <summary>
+    /// Updates the Description of the Project.
+    /// </summary>
+    /// <param name="project">The Project to update</param>
+    /// <returns>Updated Project</returns>
     public IProject UpdateProject(IProject project) {
-      string updateCommand = "UPDATE Projects SET DatabaseName=@DatabaseName, Description=@Description WHERE DatabaseName=@DatabaseName";
+      string updateCommand = "UPDATE Projects SET Description=@Description WHERE DatabaseName=@DatabaseName";
       using (var connection = new SqlConnection(connectionStringBuilder.ConnectionString)) {
         using (var command = new SqlCommand(updateCommand, connection)) {
-          command.Parameters.AddWithValue("@DatabaseName", project.DatabaseName);
           command.Parameters.AddWithValue("@Description", project.Description);
           connection.Open();
           command.ExecuteNonQuery();
@@ -91,6 +111,10 @@ namespace Taikun.SqlServer {
       return project;
     }
 
+    /// <summary>
+    /// Deletes the Project from Taikun and drops the Database
+    /// </summary>
+    /// <param name="project">Project to delete</param>
     public void DeleteProject(IProject project) {
       string deleteProjectCommand = string.Format("DELETE FROM [Projects] WHERE [DatabaseName]='{0}'", project.DatabaseName);
       using (var connection = new SqlConnection(connectionStringBuilder.ConnectionString)) {
@@ -100,6 +124,54 @@ namespace Taikun.SqlServer {
         }
       }
       dropDatabase(project.DatabaseName);
+    }
+
+    /// <summary>
+    /// Creates a new table in the specified database
+    /// </summary>
+    /// <param name="project"></param>
+    /// <param name="projectTable"></param>
+    public void CreateProjectTable(IProject project, IProjectTable projectTable) {
+      if (!(projectTable is SqlServerProjectTable)) {
+        throw new ArgumentException("The project table must be a SQL project table");
+      }
+      var sqlServerProjectTable = projectTable as SqlServerProjectTable;
+      var createTableBuilder = new StringBuilder(string.Format("CREATE TABLE [{0}] (", sqlServerProjectTable.Name));
+      foreach (DataColumn column in sqlServerProjectTable.Schema.Columns) {
+        createTableBuilder.Append(string.Format("[{0}] {1}", column.ColumnName, column.GetSqlType()));
+        createTableBuilder.Append(",");
+      }
+      createTableBuilder = createTableBuilder.Remove(createTableBuilder.Length - 1, 1);
+      if (sqlServerProjectTable.Schema.PrimaryKey.Length > 0) {
+        createTableBuilder.Append(" CONSTRAINT [PK_" + sqlServerProjectTable.Schema.TableName + "] PRIMARY KEY CLUSTERED (");
+        foreach (DataColumn column in sqlServerProjectTable.Schema.PrimaryKey) {
+          createTableBuilder.Append("[" + column.ColumnName + "],");
+        }
+        createTableBuilder = createTableBuilder.Remove(createTableBuilder.Length - 1, 1);
+        createTableBuilder.Append(")");
+      }
+      createTableBuilder.Append(")");
+      using (var connection = new SqlConnection(getDatabaseConnectionString(project.DatabaseName))) {
+        using (var command = new SqlCommand(createTableBuilder.ToString(), connection)) {
+          connection.Open();
+          command.ExecuteNonQuery();
+        }
+      }
+    }
+
+    /// <summary>
+    /// Deletes a table from the specified database
+    /// </summary>
+    /// <param name="project"></param>
+    /// <param name="projectTable"></param>
+    public void DeleteProjectTable(IProject project, IProjectTable projectTable) {
+      string deleteCommand = string.Format("DROP TABLE [{0}]", projectTable.Name);
+      using (var connection = new SqlConnection(getDatabaseConnectionString(project.DatabaseName))) {
+        using (var command = new SqlCommand(deleteCommand, connection)) {
+          connection.Open();
+          command.ExecuteNonQuery();
+        }
+      }
     }
 
     private void createDatabase(string databaseName) {
@@ -150,5 +222,6 @@ namespace Taikun.SqlServer {
       builder.InitialCatalog = databaseName;
       return builder.ConnectionString;
     }
+
   }
 }

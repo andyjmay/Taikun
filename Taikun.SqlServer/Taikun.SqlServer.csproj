@@ -39,7 +39,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Helpers\DataTypeExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SqlServerProjectTable.cs" />
     <Compile Include="SqlServerProject.cs" />
     <Compile Include="SqlServerProjectManager.cs" />
   </ItemGroup>
