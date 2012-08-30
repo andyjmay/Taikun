@@ -9,6 +9,7 @@ namespace Taikun {
     void DeleteProject(IProject project);
 
     void CreateProjectTable(IProject project, IProjectTable projectTable);
+    IProjectTable GetProjectTable(IProject project, string tableName);
     void DeleteProjectTable(IProject project, IProjectTable projectTable);
   }
 }
