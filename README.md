@@ -11,4 +11,4 @@ A simple database management system
       DatabaseName = "Test",
       Description = "This is a test"
     });
-    projectManager.GetAllProjects().Dump();
+    IEnumerable<IProject> projects = projectManager.GetAllProjects();
