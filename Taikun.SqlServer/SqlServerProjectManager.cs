@@ -7,7 +7,7 @@ using Taikun.SqlServer.Helpers;
 
 namespace Taikun.SqlServer {
   public class SqlServerProjectManager : IProjectManager {
-    private SqlConnectionStringBuilder connectionStringBuilder;
+    private readonly SqlConnectionStringBuilder connectionStringBuilder;
 
     /// <summary>
     /// Creates a new SQL Server Project Manager instance
