@@ -183,6 +183,21 @@ namespace Taikun.SqlServer {
       }
     }
 
+    public IEnumerable<IProjectTable> GetProjectTables(IProject project) {
+      string selectQuery = "SELECT * FROM sys.Tables";
+      var projectTables = new List<IProjectTable>();
+      using (var connection = new SqlConnection(getDatabaseConnectionString(project.DatabaseName))) {
+        using (var command = new SqlCommand(selectQuery, connection)) {
+          connection.Open();
+          SqlDataReader dataReader = command.ExecuteReader();
+          while (dataReader.Read()) {
+            projectTables.Add(GetProjectTable(project, dataReader["name"].ToString()));
+          }
+        }
+      }
+      return projectTables;
+    }
+
     /// <summary>
     /// Deletes a table from the specified database
     /// </summary>
@@ -246,6 +261,5 @@ namespace Taikun.SqlServer {
       builder.InitialCatalog = databaseName;
       return builder.ConnectionString;
     }
-
   }
 }
