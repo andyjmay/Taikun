@@ -183,6 +183,19 @@ namespace Taikun.SqlServer {
       }
     }
 
+    public IProjectTable GetProjectTable(IProject project, string tableName, bool loadData) {
+      string selectQuery = string.Format("SELECT * FROM [{0}]", tableName);
+      using (var connection = new SqlConnection(getDatabaseConnectionString(project.DatabaseName))) {
+        using (var dataAdapter = new SqlDataAdapter(selectQuery, connection)) {
+          connection.Open();
+          var dataTable = new DataTable();
+          dataAdapter.FillSchema(dataTable, SchemaType.Source);
+          dataAdapter.Fill(dataTable);
+          return new SqlServerProjectTable(dataTable);
+        }
+      }
+    }
+
     public IEnumerable<IProjectTable> GetProjectTables(IProject project) {
       string selectQuery = "SELECT * FROM sys.Tables";
       var projectTables = new List<IProjectTable>();
