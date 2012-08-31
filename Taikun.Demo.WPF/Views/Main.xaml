@@ -21,6 +21,9 @@
         <TabItem Header="New">
           <Views:CreateProject Margin="5" />
         </TabItem>
+        <TabItem Header="Tables">
+          <Views:CreateProjectTable Margin="5" />
+        </TabItem>
       </TabControl>
     </Grid>
   </Controls:MetroContentControl>

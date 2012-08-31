@@ -9,13 +9,11 @@ using Taikun.SqlServer;
 
 namespace Taikun.Demo.WPF.ViewModels {
   public class ProjectsViewModel : ViewModelBase {
-    private readonly SqlServerProjectManager projectManager;
+    private readonly IProjectManager projectManager;
 
     public ObservableCollection<IProject> Projects { get; private set; }
 
-    public ProjectsViewModel() {
-      projectManager = new SqlServerProjectManager(Settings.Default.TaikunDatabase, createIfNotExists: true);
-
+    public ProjectsViewModel(IProjectManager projectManager) {
       if (!IsInDesignMode) {
         Projects = new ObservableCollection<IProject>(projectManager.GetAllProjects());
       } else {

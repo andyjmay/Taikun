@@ -2,6 +2,8 @@
 using System.Collections.ObjectModel;
 using GalaSoft.MvvmLight.Command;
 using Taikun.Demo.WPF.Models;
+using Taikun.SqlServer;
+using System.Data;
 
 namespace Taikun.Demo.WPF.ViewModels {
   public class CreateProjectViewModel : ViewModelBase {
@@ -14,45 +16,25 @@ namespace Taikun.Demo.WPF.ViewModels {
       }
     }
 
-    public ObservableCollection<SqlServerTableColumn> ProjectColumns { get; private set; }
-
-    public RelayCommand AddColumn { get; private set; }
-
-    public CreateProjectViewModel() {
-      if (!IsInDesignMode) {
-        ProjectColumns = new ObservableCollection<SqlServerTableColumn>();
-      } else {
-        ProjectColumns = new ObservableCollection<SqlServerTableColumn> {
-          new SqlServerTableColumn {
-            Name = "ID",
-            Type = "int"
-          },
-          new SqlServerTableColumn {
-            Name = "FirstName",
-            Type = "string",
-            Length = 255
-          },
-          new SqlServerTableColumn {
-            Name = "LastName",
-            Type = "string",
-            Length = 255
-          },
-          new SqlServerTableColumn {
-            Name = "State",
-            Type = "string",
-            Length = 2
-          },
-          new SqlServerTableColumn {
-            Name = "Description",
-            Type = "string",
-            Length = int.MaxValue
-          }
-        };
+    private string projectDescription;
+    public string ProjectDescription {
+      get { return projectDescription; }
+      set {
+        projectDescription = value;
+        RaisePropertyChanged(() => ProjectDescription);
       }
+    }
+        
+    public RelayCommand CreateProject { get; private set; }
 
-      AddColumn = new RelayCommand(() => {
-        ProjectColumns.Add(new SqlServerTableColumn());
-      });
+    public CreateProjectViewModel(IProjectManager projectManager) {
+      CreateProject = new RelayCommand(() => {
+        IProject project = projectManager.CreateProject(new SqlServerProject {
+          DatabaseName = ProjectName,
+          Description = ProjectDescription
+        });
+      }, () => { return (!string.IsNullOrWhiteSpace(ProjectName)); }
+      );
     }
   }
 }

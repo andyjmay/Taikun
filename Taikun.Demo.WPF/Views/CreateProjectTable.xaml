@@ -1,0 +1,45 @@
+﻿<UserControl x:Class="Taikun.Demo.WPF.Views.CreateProjectTable"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:Collections="clr-namespace:System.Collections;assembly=mscorlib"
+             xmlns:System="clr-namespace:System;assembly=mscorlib" 
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300"
+             DataContext="{Binding CreateProjectTable, Source={StaticResource Locator}}">
+  <Grid>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="30" />
+      <RowDefinition Height="*" />
+      <RowDefinition Height="30" />
+    </Grid.RowDefinitions>
+    <Grid Grid.Row="0">
+      <Button Content="Add Column" Command="{Binding AddColumn}" Width="100" HorizontalAlignment="Right" Margin="0,2,0,2" />
+    </Grid>    
+    <DataGrid Grid.Row="1" x:Name="ColumnsGrid" ItemsSource="{Binding ProjectColumns}" AutoGenerateColumns="False">
+      <DataGrid.ColumnHeaderStyle>
+        <Style TargetType="{x:Type DataGridColumnHeader}">
+          <Setter Property="Background" Value="#33BED1D8" />
+          <Setter Property="Foreground" Value="#FF1C739D" />
+          <Setter Property="Margin" Value="2,2,2,2" />
+        </Style>
+      </DataGrid.ColumnHeaderStyle>
+      <DataGrid.Columns>
+        <DataGridTextColumn Header="Name" Binding="{Binding Name}" />
+        <DataGridComboBoxColumn Header="Type" SelectedItemBinding="{Binding Type}">
+          <DataGridComboBoxColumn.ItemsSource>
+            <Collections:ArrayList>
+              <System:String>int</System:String>
+              <System:String>string</System:String>
+            </Collections:ArrayList>
+          </DataGridComboBoxColumn.ItemsSource>
+        </DataGridComboBoxColumn>
+        <DataGridTextColumn Header="Length" Binding="{Binding Length}" />
+      </DataGrid.Columns>
+    </DataGrid>
+    <Grid Grid.Row="2">
+      <Button Content="Create Table" Command="{Binding CreateProjectTable}" HorizontalAlignment="Right" Width="100" Margin="0,2,0,2" />
+    </Grid>
+  </Grid>
+</UserControl>

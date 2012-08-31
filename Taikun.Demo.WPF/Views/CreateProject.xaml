@@ -3,36 +3,31 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:Collections="clr-namespace:System.Collections;assembly=mscorlib"
-             xmlns:System="clr-namespace:System;assembly=mscorlib" mc:Ignorable="d" 
+             mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300"
              DataContext="{Binding CreateProject, Source={StaticResource Locator}}">
-  <StackPanel>
-    <StackPanel Orientation="Horizontal">
-      <TextBlock Text="Project Name" FontSize="18" />
-      <TextBox Text="{Binding ProjectName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="200" />
+  <Grid>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="70" />
+      <RowDefinition Height="*" />
+      <RowDefinition Height="30" />
+    </Grid.RowDefinitions>
+    <Grid Grid.Row="0">
+      <Grid.RowDefinitions>
+        <RowDefinition Height="35" />
+        <RowDefinition Height="35" />
+      </Grid.RowDefinitions>
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="120" />
+        <ColumnDefinition Width="*" />
+      </Grid.ColumnDefinitions>
+      <TextBlock Grid.Row="0" Grid.Column="0" Text="Project Name:" FontSize="18" VerticalAlignment="Center" HorizontalAlignment="Right" />
+      <TextBox Grid.Row="0" Grid.Column="1" Margin="5,0,0,0" Text="{Binding ProjectName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" FontSize="18" Width="200" />
+      <TextBlock Grid.Row="1" Grid.Column="0" Text="Description:" FontSize="18" VerticalAlignment="Center" HorizontalAlignment="Right" />
+      <TextBox Grid.Row="1" Grid.Column="1" Margin="5,0,0,0" Text="{Binding ProjectDescription, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" FontSize="18" Width="200" />
+    </Grid>
+    <StackPanel Grid.Row="2">
+      <Button Content="Create Project" Command="{Binding CreateProject}" HorizontalAlignment="Right" Width="100" Margin="0,2,0,2"  />
     </StackPanel>
-    <Button Content="Add Column" Command="{Binding AddColumn}" />
-    <DataGrid x:Name="ColumnsGrid" ItemsSource="{Binding ProjectColumns}" AutoGenerateColumns="False">
-      <DataGrid.ColumnHeaderStyle>
-        <Style TargetType="{x:Type DataGridColumnHeader}">
-          <Setter Property="Background" Value="#33BED1D8" />
-          <Setter Property="Foreground" Value="#FF1C739D" />
-          <Setter Property="Margin" Value="2,2,2,2" />
-        </Style>
-      </DataGrid.ColumnHeaderStyle>
-      <DataGrid.Columns>
-        <DataGridTextColumn Header="Name" Binding="{Binding Name}" />
-        <DataGridComboBoxColumn Header="Type" SelectedItemBinding="{Binding Type}">
-          <DataGridComboBoxColumn.ItemsSource>
-            <Collections:ArrayList>
-              <System:String>int</System:String>
-              <System:String>string</System:String>
-            </Collections:ArrayList>
-          </DataGridComboBoxColumn.ItemsSource>
-        </DataGridComboBoxColumn>
-        <DataGridTextColumn Header="Length" Binding="{Binding Length}" />
-      </DataGrid.Columns>
-    </DataGrid>
-  </StackPanel>
+  </Grid>
 </UserControl>

@@ -71,10 +71,14 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Models\SqlServerTableColumn.cs" />
+    <Compile Include="ViewModels\CreateProjectTableViewModel.cs" />
     <Compile Include="ViewModels\CreateProjectViewModel.cs" />
     <Compile Include="ViewModels\ProjectsViewModel.cs" />
     <Compile Include="Views\CreateProject.xaml.cs">
       <DependentUpon>CreateProject.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\CreateProjectTable.xaml.cs">
+      <DependentUpon>CreateProjectTable.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Projects.xaml.cs">
       <DependentUpon>Projects.xaml</DependentUpon>
@@ -84,6 +88,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\CreateProject.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\CreateProjectTable.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
