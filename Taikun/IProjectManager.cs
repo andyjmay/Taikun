@@ -10,6 +10,7 @@ namespace Taikun {
 
     void CreateProjectTable(IProject project, IProjectTable projectTable);
     IProjectTable GetProjectTable(IProject project, string tableName);
+    IEnumerable<IProjectTable> GetProjectTables(IProject project);
     void DeleteProjectTable(IProject project, IProjectTable projectTable);
   }
 }
