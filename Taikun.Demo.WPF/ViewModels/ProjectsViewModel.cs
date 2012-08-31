@@ -6,6 +6,8 @@ using System.Text;
 using GalaSoft.MvvmLight;
 using Taikun.Demo.WPF.Properties;
 using Taikun.SqlServer;
+using GalaSoft.MvvmLight.Command;
+using GalaSoft.MvvmLight.Messaging;
 
 namespace Taikun.Demo.WPF.ViewModels {
   public class ProjectsViewModel : ViewModelBase {
@@ -13,7 +15,23 @@ namespace Taikun.Demo.WPF.ViewModels {
 
     public ObservableCollection<IProject> Projects { get; private set; }
 
+    //private SqlServerProject selectedProject;
+    //public SqlServerProject SelectedProject {
+    //  get { return selectedProject; }
+    //  set {
+    //    selectedProject = value;
+    //    RaisePropertyChanged(() => SelectedProject);
+    //  }
+    //}
+
+    public RelayCommand<IProject> SelectProject { get; private set; } 
+
     public ProjectsViewModel(IProjectManager projectManager) {
+      SelectProject = new RelayCommand<IProject>((project) => {
+        var projectSelected = new Events.ProjectSelected(project);
+        Messenger.Default.Send<Events.ProjectSelected>(projectSelected);
+      });
+
       if (!IsInDesignMode) {
         Projects = new ObservableCollection<IProject>(projectManager.GetAllProjects());
       } else {

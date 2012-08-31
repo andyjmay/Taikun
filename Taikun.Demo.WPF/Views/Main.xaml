@@ -5,24 +5,17 @@
                       xmlns:Views="clr-namespace:Taikun.Demo.WPF.Views" Title="Taikun Demo" 
                       Height="350" Width="525"
                       DataContext="{Binding Main, Source={StaticResource Locator}}">
-  <Controls:MetroWindow.Resources>
-    <ResourceDictionary>
-      <ResourceDictionary.MergedDictionaries>
-        
-      </ResourceDictionary.MergedDictionaries>
-    </ResourceDictionary>
-  </Controls:MetroWindow.Resources>
   <Controls:MetroContentControl>
     <Grid>
       <TabControl>
-        <TabItem Header="Projects">
+        <TabItem x:Name="ProjectsTab" Header="Projects">
           <Views:Projects Margin="5" />
         </TabItem>
-        <TabItem Header="New">
+        <TabItem x:Name="NewTab" Header="New">
           <Views:CreateProject Margin="5" />
         </TabItem>
-        <TabItem Header="Tables">
-          <Views:CreateProjectTable Margin="5" />
+        <TabItem x:Name="TablesTab" Header="Tables" Visibility="{Binding Path=ProjectIsSelected, Converter={StaticResource boolToVisibility}}">
+          <Views:ProjectTables Margin="5" />
         </TabItem>
       </TabControl>
     </Grid>

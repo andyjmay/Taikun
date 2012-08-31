@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
+# Visual C# Express 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Taikun", "Taikun\Taikun.csproj", "{CE636EE4-B8F2-42A3-AFDB-265DB7091C27}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Taikun.SqlServer", "Taikun.SqlServer\Taikun.SqlServer.csproj", "{8E917391-AB1D-43E4-BF19-5D40D53D8E8F}"

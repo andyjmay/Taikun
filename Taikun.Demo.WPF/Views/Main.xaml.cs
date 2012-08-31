@@ -2,21 +2,16 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+using GalaSoft.MvvmLight.Messaging;
 
 namespace Taikun.Demo.WPF.Views {
-  public partial class Main : MahApps.Metro.Controls.MetroWindow {
+  public partial class Main {
     public Main() {
-      InitializeComponent();
-      
+      Messenger.Default.Register<Events.ProjectSelected>(this, projectSelectedEventHandler);
+    }
+
+    private void projectSelectedEventHandler(Events.ProjectSelected projectSelectedEvent) {
+      TablesTab.IsSelected = true;
     }
   }
 }
