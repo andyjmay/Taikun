@@ -20,9 +20,9 @@
         <ColumnDefinition Width="120" />
         <ColumnDefinition Width="*" />
       </Grid.ColumnDefinitions>
-      <TextBlock Grid.Row="0" Grid.Column="0" Text="Project Name:" FontSize="18" VerticalAlignment="Center" HorizontalAlignment="Right" />
+      <TextBlock Grid.Row="0" Grid.Column="0" Text="Project Name:" FontSize="18" VerticalAlignment="Center" HorizontalAlignment="Right" Style="{StaticResource TextBlockStyle}" />
       <TextBox Grid.Row="0" Grid.Column="1" Margin="5" Text="{Binding ProjectName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" FontSize="18" Width="200" HorizontalAlignment="Left" />
-      <TextBlock Grid.Row="1" Grid.Column="0" Text="Description:" FontSize="18" VerticalAlignment="Center" HorizontalAlignment="Right" />
+      <TextBlock Grid.Row="1" Grid.Column="0" Text="Description:" FontSize="18" VerticalAlignment="Center" HorizontalAlignment="Right" Style="{StaticResource TextBlockStyle}" />
       <TextBox Grid.Row="1" Grid.Column="1" Margin="5" Text="{Binding ProjectDescription, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" FontSize="18" Width="200" HorizontalAlignment="Left" />
     </Grid>
     <StackPanel Grid.Row="2">

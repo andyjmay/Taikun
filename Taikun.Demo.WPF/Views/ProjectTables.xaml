@@ -12,7 +12,7 @@
       <ColumnDefinition Width="*" />
     </Grid.ColumnDefinitions>
     <StackPanel Grid.Column="0">
-      <TextBlock Text="Tables" FontSize="18" />
+      <TextBlock Text="Tables" FontSize="18" Style="{StaticResource TextBlockStyle}"  />
       <ListBox ItemsSource="{Binding Tables}" SelectedItem="{Binding SelectedTable}" >
         <ListBox.ItemTemplate>
           <DataTemplate>

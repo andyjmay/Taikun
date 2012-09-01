@@ -74,6 +74,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Events\ProjectCreated.cs" />
     <Compile Include="Events\ProjectSelected.cs" />
     <Compile Include="Models\SqlServerTableColumn.cs" />
     <Compile Include="ViewModels\CreateProjectTableViewModel.cs" />
@@ -96,6 +97,10 @@
       <DependentUpon>ProjectTables.xaml</DependentUpon>
     </Compile>
     <Page Include="Resources\Colors.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Resources\Styles.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

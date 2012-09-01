@@ -10,12 +10,12 @@
       <TabControl>
         <TabItem x:Name="ProjectsTab" Header="Projects">
           <Views:Projects Margin="5" />
+        </TabItem>        
+        <TabItem x:Name="TablesTab" Header="Tables" Visibility="{Binding Path=ProjectIsSelected, Converter={StaticResource boolToVisibility}}">
+          <Views:ProjectTables Margin="5" />
         </TabItem>
         <TabItem x:Name="NewTab" Header="New">
           <Views:CreateProject Margin="5" />
-        </TabItem>
-        <TabItem x:Name="TablesTab" Header="Tables" Visibility="{Binding Path=ProjectIsSelected, Converter={StaticResource boolToVisibility}}">
-          <Views:ProjectTables Margin="5" />
         </TabItem>
       </TabControl>
     </Grid>

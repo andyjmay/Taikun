@@ -13,15 +13,17 @@
       <RowDefinition Height="*" />
     </Grid.RowDefinitions>
     <StackPanel Grid.Row="0" Orientation="Horizontal">
-      <TextBlock Text="Current Projects" FontSize="18" />
+      <TextBlock Text="Current Projects" Style="{StaticResource TextBlockStyle}"  FontSize="18" />
     </StackPanel>
     <ListBox Grid.Row="1" ItemsSource="{Binding Projects}" SelectedItem="{Binding SelectedProject}">
       <ListBox.ItemTemplate>
         <DataTemplate>
           <StackPanel Orientation="Horizontal" Margin="5">
             <Button Content="Select" Command="{Binding DataContext.SelectProject, RelativeSource={RelativeSource AncestorType=UserControl, Mode=FindAncestor}}" CommandParameter="{Binding}" />
-            <TextBlock Text="{Binding DatabaseName}" FontSize="16" FontWeight="Bold" Margin="0,0,5,0" />
-            <TextBlock Text="{Binding Description}" FontSize="16" />
+            <StackPanel Margin="10,0,0,0">
+              <TextBlock Text="{Binding DatabaseName}" FontSize="16" />
+              <TextBlock Text="{Binding Description}" FontSize="12" />
+            </StackPanel>
           </StackPanel>
         </DataTemplate>
       </ListBox.ItemTemplate>

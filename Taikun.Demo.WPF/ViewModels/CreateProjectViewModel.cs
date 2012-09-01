@@ -4,6 +4,7 @@ using GalaSoft.MvvmLight.Command;
 using Taikun.Demo.WPF.Models;
 using Taikun.SqlServer;
 using System.Data;
+using GalaSoft.MvvmLight.Messaging;
 
 namespace Taikun.Demo.WPF.ViewModels {
   public class CreateProjectViewModel : ViewModelBase {
@@ -39,6 +40,7 @@ namespace Taikun.Demo.WPF.ViewModels {
         DatabaseName = ProjectName,
         Description = ProjectDescription
       });
+      Messenger.Default.Send<Events.ProjectCreated>(new Events.ProjectCreated(project));
     }
   }
 }

@@ -27,6 +27,7 @@ namespace Taikun.Demo.WPF.ViewModels {
     public RelayCommand<IProject> SelectProject { get; private set; } 
 
     public ProjectsViewModel(IProjectManager projectManager) {
+      this.projectManager = projectManager;
       SelectProject = new RelayCommand<IProject>((project) => {
         var projectSelected = new Events.ProjectSelected(project);
         Messenger.Default.Send<Events.ProjectSelected>(projectSelected);
@@ -57,6 +58,15 @@ namespace Taikun.Demo.WPF.ViewModels {
             Description = "This is a test"
           }
         };
+      }
+
+      Messenger.Default.Register<Events.ProjectCreated>(this, projectCreatedEventHandler);
+    }
+
+    private void projectCreatedEventHandler(Events.ProjectCreated projectCreatedEvent) {
+      Projects.Clear();
+      foreach (IProject project in projectManager.GetAllProjects()) {
+        Projects.Add(project);
       }
     }
   }
