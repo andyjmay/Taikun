@@ -23,7 +23,7 @@
     </StackPanel>
     <Grid Grid.Column="1">
       <Grid.RowDefinitions>
-        <RowDefinition Height="20" />
+        <RowDefinition Height="30" />
         <RowDefinition Height="*" />
       </Grid.RowDefinitions>
       <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">

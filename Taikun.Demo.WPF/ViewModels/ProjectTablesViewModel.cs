@@ -34,6 +34,15 @@ namespace Taikun.Demo.WPF.ViewModels {
       }
     }
 
+    private IProject selectedProject;
+    public IProject SelectedProject {
+      get { return selectedProject; }
+      set {
+        selectedProject = value;
+        RaisePropertyChanged(() => SelectedProject);
+      }
+    }
+
     public ObservableCollection<IProjectTable> Tables { get; private set; }
 
     public RelayCommand LoadTableData { get; private set; }
@@ -47,15 +56,19 @@ namespace Taikun.Demo.WPF.ViewModels {
           new SqlServerProjectTable(new DataTable("Table 1"))
         };
       }
-      LoadTableData = new RelayCommand(() => {
-        int i = 0;
-      });
+      LoadTableData = new RelayCommand(loadProjectTableData, () => { return (SelectedTable != null); });
       Messenger.Default.Register<Events.ProjectSelected>(this, projectSelectedEventHandler);
+    }
+
+    private void loadProjectTableData() {
+      IProjectTable projectTableWithData = projectManager.GetProjectTable(SelectedProject, SelectedTable.Name, true);
+      SelectedTableData = ((SqlServerProjectTable)projectTableWithData).Schema;
     }
 
     private void projectSelectedEventHandler(Events.ProjectSelected projectSelectedEvent) {
       Tables.Clear();
-      foreach (IProjectTable projectTable in projectManager.GetProjectTables(projectSelectedEvent.Project)) {
+      SelectedProject = projectSelectedEvent.Project;
+      foreach (IProjectTable projectTable in projectManager.GetProjectTables(SelectedProject)) {
         Tables.Add(projectTable);
       }
     }
