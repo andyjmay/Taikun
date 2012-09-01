@@ -4,30 +4,29 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300"
+             d:DesignHeight="300" d:DesignWidth="600"
              DataContext="{Binding CreateProject, Source={StaticResource Locator}}">
   <Grid>
-    <Grid.RowDefinitions>
-      <RowDefinition Height="70" />
+    <Grid.RowDefinitions>      
       <RowDefinition Height="*" />
       <RowDefinition Height="30" />
     </Grid.RowDefinitions>
-    <Grid Grid.Row="0">
+    <Grid Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Center">
       <Grid.RowDefinitions>
-        <RowDefinition Height="35" />
-        <RowDefinition Height="35" />
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
       </Grid.RowDefinitions>
       <Grid.ColumnDefinitions>
         <ColumnDefinition Width="120" />
         <ColumnDefinition Width="*" />
       </Grid.ColumnDefinitions>
       <TextBlock Grid.Row="0" Grid.Column="0" Text="Project Name:" FontSize="18" VerticalAlignment="Center" HorizontalAlignment="Right" />
-      <TextBox Grid.Row="0" Grid.Column="1" Margin="5,0,0,0" Text="{Binding ProjectName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" FontSize="18" Width="200" />
+      <TextBox Grid.Row="0" Grid.Column="1" Margin="5" Text="{Binding ProjectName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" FontSize="18" Width="200" HorizontalAlignment="Left" />
       <TextBlock Grid.Row="1" Grid.Column="0" Text="Description:" FontSize="18" VerticalAlignment="Center" HorizontalAlignment="Right" />
-      <TextBox Grid.Row="1" Grid.Column="1" Margin="5,0,0,0" Text="{Binding ProjectDescription, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" FontSize="18" Width="200" />
+      <TextBox Grid.Row="1" Grid.Column="1" Margin="5" Text="{Binding ProjectDescription, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" FontSize="18" Width="200" HorizontalAlignment="Left" />
     </Grid>
     <StackPanel Grid.Row="2">
-      <Button Content="Create Project" Command="{Binding CreateProject}" HorizontalAlignment="Right" Width="100" Margin="0,2,0,2"  />
+      <Button Content="Create Project" Command="{Binding CreateProject}" HorizontalAlignment="Right" Margin="0,2,0,2"  />
     </StackPanel>
   </Grid>
 </UserControl>

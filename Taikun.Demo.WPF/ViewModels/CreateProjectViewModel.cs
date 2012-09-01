@@ -27,14 +27,18 @@ namespace Taikun.Demo.WPF.ViewModels {
         
     public RelayCommand CreateProject { get; private set; }
 
+    private IProjectManager projectManager;
+
     public CreateProjectViewModel(IProjectManager projectManager) {
-      CreateProject = new RelayCommand(() => {
-        IProject project = projectManager.CreateProject(new SqlServerProject {
-          DatabaseName = ProjectName,
-          Description = ProjectDescription
-        });
-      }, () => { return (!string.IsNullOrWhiteSpace(ProjectName)); }
-      );
+      this.projectManager = projectManager;
+      CreateProject = new RelayCommand(createProject, () => { return (!string.IsNullOrWhiteSpace(ProjectName)); });
+    }
+
+    private void createProject() {
+      IProject project = projectManager.CreateProject(new SqlServerProject {
+        DatabaseName = ProjectName,
+        Description = ProjectDescription
+      });
     }
   }
 }
