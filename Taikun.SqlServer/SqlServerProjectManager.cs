@@ -190,7 +190,7 @@ namespace Taikun.SqlServer {
           connection.Open();
           SqlDataReader dataReader = command.ExecuteReader();
           while (dataReader.Read()) {
-            projectTables.Add(GetProjectTable(project, dataReader["name"].ToString()));
+            projectTables.Add(GetProjectTable(project, dataReader["name"].ToString(), false));
           }
         }
       }
