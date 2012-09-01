@@ -163,7 +163,7 @@ namespace Taikun.SqlServer {
         }
       }
     }
-
+    
     public IProjectTable GetProjectTable(IProject project, string tableName, bool loadData) {
       string selectQuery;
       if (loadData) {
