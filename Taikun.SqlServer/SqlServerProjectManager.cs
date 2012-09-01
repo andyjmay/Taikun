@@ -164,27 +164,13 @@ namespace Taikun.SqlServer {
       }
     }
 
-    /// <summary>
-    /// Gets the table with the specified name
-    /// </summary>
-    /// <param name="project">The database to query</param>
-    /// <param name="tableName">The table name</param>
-    /// <returns></returns>
-    public IProjectTable GetProjectTable(IProject project, string tableName) {
-      string selectQuery = string.Format("SELECT TOP 0 * FROM [{0}]", tableName);
-      using(var connection = new SqlConnection(getDatabaseConnectionString(project.DatabaseName))) {
-        using (var dataAdapter = new SqlDataAdapter(selectQuery, connection)) {
-          connection.Open();
-          var dataTable = new DataTable();
-          dataAdapter.FillSchema(dataTable, SchemaType.Source);
-          dataAdapter.Fill(dataTable);
-          return new SqlServerProjectTable(dataTable);
-        }
-      }
-    }
-
     public IProjectTable GetProjectTable(IProject project, string tableName, bool loadData) {
-      string selectQuery = string.Format("SELECT * FROM [{0}]", tableName);
+      string selectQuery;
+      if (loadData) {
+        selectQuery = string.Format("SELECT * FROM [{0}]", tableName);
+      } else {
+        selectQuery = string.Format("SELECT TOP 0 * FROM [{0}]", tableName);
+      }
       using (var connection = new SqlConnection(getDatabaseConnectionString(project.DatabaseName))) {
         using (var dataAdapter = new SqlDataAdapter(selectQuery, connection)) {
           connection.Open();
