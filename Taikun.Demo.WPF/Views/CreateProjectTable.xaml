@@ -6,18 +6,43 @@
              xmlns:Collections="clr-namespace:System.Collections;assembly=mscorlib"
              xmlns:System="clr-namespace:System;assembly=mscorlib" 
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300"
+             d:DesignHeight="300" d:DesignWidth="400"
              DataContext="{Binding CreateProjectTable, Source={StaticResource Locator}}">
   <Grid>
     <Grid.RowDefinitions>
+      <RowDefinition Height="30" />
       <RowDefinition Height="30" />
       <RowDefinition Height="*" />
       <RowDefinition Height="30" />
     </Grid.RowDefinitions>
     <Grid Grid.Row="0">
-      <Button Content="Add Column" Command="{Binding AddColumn}" Width="100" HorizontalAlignment="Right" Margin="0,2,0,2" />
-    </Grid>    
-    <DataGrid Grid.Row="1" x:Name="ColumnsGrid" ItemsSource="{Binding ProjectColumns}" AutoGenerateColumns="False">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="*" />
+        <ColumnDefinition Width="Auto" />
+      </Grid.ColumnDefinitions>
+      <Grid Grid.Column="0">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="Auto" />
+          <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <TextBlock Grid.Column="0" Text="Table Name:" FontSize="18" VerticalAlignment="Center" Style="{StaticResource TextBlockStyle}" />
+        <TextBox Grid.Column="1" Text="{Binding TableName, UpdateSourceTrigger=PropertyChanged}" FontSize="18" Margin="5,0,5,0"/>
+      </Grid>
+    </Grid>
+    <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,2,0,2">
+      <Button ToolTip="Remove Column" Command="{Binding RemoveColumn}" CommandParameter="{Binding Path=SelectedItem, ElementName=ColumnsGrid}" Width="25">
+        <Button.Content>
+          <TextBlock Text="-" FontSize="14" FontWeight="Bold" VerticalAlignment="Center" />
+        </Button.Content>
+      </Button>
+      <Button ToolTip="Add Column" Command="{Binding AddColumn}" Width="25" Margin="5,0,0,0">
+        <Button.Content>
+          <TextBlock Text="+" FontSize="18" FontWeight="Bold" VerticalAlignment="Center" />
+        </Button.Content>
+      </Button>
+    </StackPanel>
+    <DataGrid Grid.Row="2" x:Name="ColumnsGrid" ItemsSource="{Binding ProjectColumns}" SelectedItem="{Binding SelectedColumn}" 
+              AutoGenerateColumns="False" CanUserAddRows="True" CanUserDeleteRows="True" CanUserReorderColumns="False" CanUserResizeRows="False">
       <DataGrid.ColumnHeaderStyle>
         <Style TargetType="{x:Type DataGridColumnHeader}">
           <Setter Property="Background" Value="#33BED1D8" />
@@ -26,8 +51,10 @@
         </Style>
       </DataGrid.ColumnHeaderStyle>
       <DataGrid.Columns>
-        <DataGridTextColumn Header="Name" Binding="{Binding Name}" />
-        <DataGridComboBoxColumn Header="Type" SelectedItemBinding="{Binding Type}">
+        <DataGridCheckBoxColumn Header="Primary Key" Binding="{Binding PrimaryKey}" />
+        <DataGridCheckBoxColumn Header="Identity" Binding="{Binding Identity}" />
+        <DataGridTextColumn Header="Column Name" Binding="{Binding Name}" />
+        <DataGridComboBoxColumn Header="Column Type" SelectedItemBinding="{Binding Type}">
           <DataGridComboBoxColumn.ItemsSource>
             <Collections:ArrayList>
               <System:String>int</System:String>
@@ -36,9 +63,10 @@
           </DataGridComboBoxColumn.ItemsSource>
         </DataGridComboBoxColumn>
         <DataGridTextColumn Header="Length" Binding="{Binding Length}" />
+        <DataGridCheckBoxColumn Header="Allow Nulls" Binding="{Binding AllowNulls}" />
       </DataGrid.Columns>
     </DataGrid>
-    <Grid Grid.Row="2">
+    <Grid Grid.Row="3">
       <Button Content="Create Table" Command="{Binding CreateProjectTable}" HorizontalAlignment="Right" Width="100" Margin="0,2,0,2" />
     </Grid>
   </Grid>

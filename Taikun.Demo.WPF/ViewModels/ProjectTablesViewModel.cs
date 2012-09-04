@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using GalaSoft.MvvmLight;
-using System.Data;
-using System.Collections.ObjectModel;
-using Taikun.SqlServer;
-using GalaSoft.MvvmLight.Messaging;
+﻿using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
+using GalaSoft.MvvmLight.Messaging;
+using System.Collections.ObjectModel;
+using System.Data;
+using Taikun.SqlServer;
 
 namespace Taikun.Demo.WPF.ViewModels {
   public class ProjectTablesViewModel : ViewModelBase {
@@ -81,8 +77,8 @@ namespace Taikun.Demo.WPF.ViewModels {
       LoadTableData = new RelayCommand(loadProjectTableData, () => { return (SelectedTable != null); });
       NewTable = new RelayCommand(addNewTable, () => { return (SelectedProject != null); });
       CancelCreateNewTable = new RelayCommand(cancelCreateNewTable, () => { return (CreatingNewTable); });
-      CreateNewTable = new RelayCommand(createNewTable, () => { return CreatingNewTable && !string.IsNullOrWhiteSpace(NewTableName);});
       Messenger.Default.Register<Events.ProjectSelected>(this, projectSelectedEventHandler);
+      Messenger.Default.Register<Events.ProjectTableCreated>(this, projectTableCreatedEventHandler);
     }
 
     private void loadProjectTableData() {
@@ -91,19 +87,15 @@ namespace Taikun.Demo.WPF.ViewModels {
     }
 
     private void addNewTable() {
-      //SelectedTable = new SqlServerProjectTable(new DataTable());
       CreatingNewTable = true;
+      SelectedTable = null;
     }
 
     private void cancelCreateNewTable() {
       CreatingNewTable = false;
       NewTableName = string.Empty;
     }
-
-    private void createNewTable() {
-      //projectManager.CreateProjectTable(SelectedProject, new SqlServerProjectTable(new DataTable(NewTableName)));
-      //projectSelectedEventHandler(SelectedProject);
-    }
+    
 
     private void projectSelectedEventHandler(Events.ProjectSelected projectSelectedEvent) {
       Tables.Clear();
@@ -111,6 +103,12 @@ namespace Taikun.Demo.WPF.ViewModels {
       foreach (IProjectTable projectTable in projectManager.GetProjectTables(SelectedProject)) {
         Tables.Add(projectTable);
       }
+    }
+
+    private void projectTableCreatedEventHandler(Events.ProjectTableCreated projectTableCreatedEvent) {
+      CreatingNewTable = false;
+      Tables.Add(projectTableCreatedEvent.ProjectTable);
+      SelectedTable = projectTableCreatedEvent.ProjectTable;
     }
 
     public override void Cleanup() {

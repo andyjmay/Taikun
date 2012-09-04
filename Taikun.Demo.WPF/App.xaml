@@ -23,6 +23,8 @@
         <ResourceDictionary>
           <BooleanToVisibilityConverter x:Key="boolToVisibility" />
           <Converters:InverseBooleanToVisibilityConverter x:Key="inverseBoolToVisibility" />
+          <Converters:NullToVisibilityConverter x:Key="nullToVisibility" />
+          <Converters:InverseNullToVisibilityConverter x:Key="inverseNullToVisibility" />
         </ResourceDictionary>
       </ResourceDictionary.MergedDictionaries>
     </ResourceDictionary>
