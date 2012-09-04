@@ -144,6 +144,10 @@ namespace Taikun.SqlServer {
       var createTableBuilder = new StringBuilder(string.Format("CREATE TABLE [{0}] (", sqlServerProjectTable.Name));
       foreach (DataColumn column in sqlServerProjectTable.Schema.Columns) {
         createTableBuilder.Append(string.Format("[{0}] {1}", column.ColumnName, column.GetSqlType()));
+        if (column.AutoIncrement) {
+          createTableBuilder.Append(string.Format(" IDENTITY ({0},{1})", column.AutoIncrementSeed, column.AutoIncrementStep));
+        }
+        createTableBuilder.Append(column.AllowDBNull ? " NULL" : " NOT NULL");
         createTableBuilder.Append(",");
       }
       createTableBuilder = createTableBuilder.Remove(createTableBuilder.Length - 1, 1);
