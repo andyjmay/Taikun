@@ -52,8 +52,16 @@ namespace Taikun.Demo.WPF.ViewModels {
     }
 
     private void projectTableSelectedEventHandler(Events.ProjectTableSelected projectTableSelectedEvent) {
-      SelectedProjectTable = projectManager.GetProjectTable(SelectedProject, projectTableSelectedEvent.ProjectTable.Name, loadData: false);
-      SelectedTableData = null;
+      if (projectTableSelectedEvent.ProjectTable != null) {
+        var table = projectManager.GetProjectTable(SelectedProject, projectTableSelectedEvent.ProjectTable.Name, loadData: false) as SqlServerProjectTable;
+        if (table != null) {
+          SelectedProjectTable = table;
+          SelectedTableData = table.Schema;
+        }
+      } else {
+        SelectedProjectTable = null;
+        SelectedTableData = null;
+      }
     }
     
     private void loadProjectTableData() {
