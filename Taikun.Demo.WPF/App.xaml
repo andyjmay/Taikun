@@ -4,6 +4,7 @@
              xmlns:vm="clr-namespace:Taikun.Demo.WPF.ViewModels"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:Converters="clr-namespace:Taikun.Demo.WPF.Converters"
              mc:Ignorable="d"
              StartupUri="Views/Main.xaml">
   <Application.Resources>
@@ -21,6 +22,7 @@
         <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.AnimatedTabControl.xaml" />
         <ResourceDictionary>
           <BooleanToVisibilityConverter x:Key="boolToVisibility" />
+          <Converters:InverseBooleanToVisibilityConverter x:Key="inverseBoolToVisibility" />
         </ResourceDictionary>
       </ResourceDictionary.MergedDictionaries>
     </ResourceDictionary>

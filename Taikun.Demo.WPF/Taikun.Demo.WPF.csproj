@@ -74,6 +74,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Converters\InverseBooleanToVisibilityConverter.cs" />
     <Compile Include="Events\ProjectCreated.cs" />
     <Compile Include="Events\ProjectSelected.cs" />
     <Compile Include="Models\SqlServerTableColumn.cs" />
