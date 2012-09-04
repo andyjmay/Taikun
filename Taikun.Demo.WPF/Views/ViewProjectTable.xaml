@@ -11,7 +11,7 @@
       <RowDefinition Height="30" />
       <RowDefinition Height="*" />
     </Grid.RowDefinitions>
-    <Grid>
+    <Grid Margin="0,0,0,5">
       <Button Content="Load Table Data" Command="{Binding LoadTableData}" HorizontalAlignment="Right" />
     </Grid>
     <DataGrid Grid.Row="1" ItemsSource="{Binding SelectedTableData}" Visibility="{Binding SelectedTableData, Converter={StaticResource nullToVisibility}}" AutoGenerateColumns="True" IsReadOnly="True">

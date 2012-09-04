@@ -52,12 +52,12 @@ namespace Taikun.Demo.WPF.ViewModels {
     }
 
     private void projectTableSelectedEventHandler(Events.ProjectTableSelected projectTableSelectedEvent) {
-      SelectedProjectTable = projectTableSelectedEvent.ProjectTable;
+      SelectedProjectTable = projectManager.GetProjectTable(SelectedProject, projectTableSelectedEvent.ProjectTable.Name, loadData: false);
       SelectedTableData = null;
     }
     
     private void loadProjectTableData() {
-      IProjectTable projectTableWithData = projectManager.GetProjectTable(SelectedProject, SelectedProjectTable.Name, true);
+      IProjectTable projectTableWithData = projectManager.GetProjectTable(SelectedProject, SelectedProjectTable.Name, loadData: true);
       SelectedTableData = ((SqlServerProjectTable)projectTableWithData).Schema;
     }
 

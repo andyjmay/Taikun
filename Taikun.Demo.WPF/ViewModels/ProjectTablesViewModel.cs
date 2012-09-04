@@ -36,15 +36,6 @@ namespace Taikun.Demo.WPF.ViewModels {
         RaisePropertyChanged(() => CreatingNewTable);
       }
     }
-    
-    private string newTableName;
-    public string NewTableName {
-      get { return newTableName; }
-      set {
-        newTableName = value;
-        RaisePropertyChanged(() => NewTableName);
-      }
-    }
 
     public ObservableCollection<IProjectTable> Tables { get; private set; }
     
@@ -76,7 +67,6 @@ namespace Taikun.Demo.WPF.ViewModels {
 
     private void cancelCreateNewTable() {
       CreatingNewTable = false;
-      NewTableName = string.Empty;
     }
     
     private void projectSelectedEventHandler(Events.ProjectSelected projectSelectedEvent) {
