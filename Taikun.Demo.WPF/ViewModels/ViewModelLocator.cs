@@ -9,6 +9,7 @@ namespace Taikun.Demo.WPF.ViewModels {
       ServiceLocator.SetLocatorProvider(() => SimpleIoc.Default);            
       SimpleIoc.Default.Register<IProjectManager>(() => new SqlServerProjectManager(Settings.Default.TaikunDatabase), true);            
       SimpleIoc.Default.Register<CreateProjectTableViewModel>(true);
+      SimpleIoc.Default.Register<ViewProjectTableViewModel>(true);
       SimpleIoc.Default.Register<CreateProjectViewModel>(true);
       SimpleIoc.Default.Register<ProjectTablesViewModel>(true);
       SimpleIoc.Default.Register<ProjectsViewModel>(true);
@@ -29,6 +30,10 @@ namespace Taikun.Demo.WPF.ViewModels {
 
     public CreateProjectTableViewModel CreateProjectTable {
       get { return ServiceLocator.Current.GetInstance<CreateProjectTableViewModel>(); }
+    }
+
+    public ViewProjectTableViewModel ViewProjectTable {
+      get { return ServiceLocator.Current.GetInstance<ViewProjectTableViewModel>(); }
     }
 
     public ProjectTablesViewModel ProjectTables {

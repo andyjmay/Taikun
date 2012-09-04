@@ -16,7 +16,7 @@
         <TextBlock Text="Tables" FontSize="18" Style="{StaticResource TextBlockStyle}" />
         <Button Content="New" Command="{Binding NewTable}" HorizontalAlignment="Right" />
       </Grid>
-      <ListBox ItemsSource="{Binding Tables}" SelectedItem="{Binding SelectedTable}" >
+      <ListBox ItemsSource="{Binding Tables}" SelectedItem="{Binding SelectedTable}" Margin="0,10,0,0" >
         <ListBox.ItemTemplate>
           <DataTemplate>
             <TextBlock Text="{Binding Name}" FontSize="18" />
@@ -33,23 +33,8 @@
         <Views:CreateProjectTable Grid.Row="0" />
         <Button Grid.Row="1" Content="Cancel" Command="{Binding CancelCreateNewTable}" />
       </Grid>
-      <Grid Visibility="{Binding SelectedTable, Converter={StaticResource nullToVisibility}}">
-        <Grid.RowDefinitions>
-          <RowDefinition Height="30" />
-          <RowDefinition Height="*" />
-        </Grid.RowDefinitions>
-        <Grid>
-          <Button Content="Load Table Data" Command="{Binding LoadTableData}" Visibility="{Binding CreatingNewTable, Converter={StaticResource inverseBoolToVisibility}}" HorizontalAlignment="Right" />
-        </Grid>
-        <DataGrid Grid.Row="1" ItemsSource="{Binding SelectedTableData}" Visibility="{Binding SelectedTableData, Converter={StaticResource nullToVisibility}}" AutoGenerateColumns="True" IsReadOnly="True">
-          <DataGrid.ColumnHeaderStyle>
-            <Style TargetType="{x:Type DataGridColumnHeader}">
-              <Setter Property="Background" Value="#33BED1D8" />
-              <Setter Property="Foreground" Value="#FF1C739D" />
-              <Setter Property="Margin" Value="2,2,2,2" />
-            </Style>
-          </DataGrid.ColumnHeaderStyle>
-        </DataGrid>
+      <Grid Visibility="{Binding SelectedTable, Converter={StaticResource nullToVisibility}}" Margin="0,-1,0,1">
+        <Views:ViewProjectTable />
       </Grid>
     </Grid>
   </Grid>

@@ -7,26 +7,15 @@ using Taikun.SqlServer;
 
 namespace Taikun.Demo.WPF.ViewModels {
   public class ProjectTablesViewModel : ViewModelBase {
-    IProjectManager projectManager;
+    readonly IProjectManager projectManager;
     
-    private DataTable selectedTableData;
-    public DataTable SelectedTableData {
-      get { return selectedTableData; }
-      set {
-        selectedTableData = value;
-        RaisePropertyChanged(() => SelectedTableData);
-      }
-    }
-
     private IProjectTable selectedTable;
     public IProjectTable SelectedTable {
       get { return selectedTable; }
       set {
         selectedTable = value;
         RaisePropertyChanged(() => SelectedTable);
-        if (SelectedTable is SqlServerProjectTable) {
-          SelectedTableData = ((SqlServerProjectTable)SelectedTable).Schema;
-        }
+        Messenger.Default.Send(new Events.ProjectTableSelected(SelectedTable));
       }
     }
 
@@ -58,8 +47,7 @@ namespace Taikun.Demo.WPF.ViewModels {
     }
 
     public ObservableCollection<IProjectTable> Tables { get; private set; }
-
-    public RelayCommand LoadTableData { get; private set; }
+    
     public RelayCommand NewTable { get; private set; }
     public RelayCommand CancelCreateNewTable { get; private set; }
     public RelayCommand CreateNewTable { get; private set; }
@@ -74,16 +62,11 @@ namespace Taikun.Demo.WPF.ViewModels {
           new SqlServerProjectTable(new DataTable("Table 1"))
         };
       }
-      LoadTableData = new RelayCommand(loadProjectTableData, () => { return (SelectedTable != null); });
+      
       NewTable = new RelayCommand(addNewTable, () => { return (SelectedProject != null); });
       CancelCreateNewTable = new RelayCommand(cancelCreateNewTable, () => { return (CreatingNewTable); });
       Messenger.Default.Register<Events.ProjectSelected>(this, projectSelectedEventHandler);
       Messenger.Default.Register<Events.ProjectTableCreated>(this, projectTableCreatedEventHandler);
-    }
-
-    private void loadProjectTableData() {
-      IProjectTable projectTableWithData = projectManager.GetProjectTable(SelectedProject, SelectedTable.Name, true);
-      SelectedTableData = ((SqlServerProjectTable)projectTableWithData).Schema;
     }
 
     private void addNewTable() {
@@ -96,7 +79,6 @@ namespace Taikun.Demo.WPF.ViewModels {
       NewTableName = string.Empty;
     }
     
-
     private void projectSelectedEventHandler(Events.ProjectSelected projectSelectedEvent) {
       Tables.Clear();
       SelectedProject = projectSelectedEvent.Project;
@@ -113,6 +95,7 @@ namespace Taikun.Demo.WPF.ViewModels {
 
     public override void Cleanup() {
       Messenger.Default.Unregister<Events.ProjectSelected>(this);
+      Messenger.Default.Unregister<Events.ProjectTableCreated>(this);
       base.Cleanup();
     }
   }
