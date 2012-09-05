@@ -109,6 +109,7 @@ namespace Taikun.SqlServer {
       using (var connection = new SqlConnection(connectionStringBuilder.ConnectionString)) {
         using (var command = new SqlCommand(updateCommand, connection)) {
           command.Parameters.AddWithValue("@Description", project.Description);
+          command.Parameters.AddWithValue("@DatabaseName", project.DatabaseName);
           connection.Open();
           command.ExecuteNonQuery();
         }
