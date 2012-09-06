@@ -16,7 +16,7 @@ namespace Taikun.SqlServer {
     /// <param name="createIfNotExists">If true, the Taikun database is created if it doesn't already exist</param>
     public SqlServerProjectManager(string connectionString, bool createIfNotExists = false) {
       connectionStringBuilder = new SqlConnectionStringBuilder(connectionString);
-      if (createIfNotExists && !databaseExists(connectionStringBuilder.InitialCatalog)) {
+      if (createIfNotExists && !ProjectExists(connectionStringBuilder.InitialCatalog)) {
         createDatabase(connectionStringBuilder.InitialCatalog);
         string createTableCommand = "CREATE TABLE [dbo].[Projects]([ID] [int] IDENTITY(1,1) NOT NULL,[DatabaseName] [varchar](255) NOT NULL,[Description] [varchar](255) NULL)";
         using (var connection = new SqlConnection(getDatabaseConnectionString(connectionStringBuilder.InitialCatalog))) {
@@ -24,6 +24,22 @@ namespace Taikun.SqlServer {
             connection.Open();
             command.ExecuteNonQuery();
           }
+        }
+      }
+    }
+
+    /// <summary>
+    /// Tests if a given database exists
+    /// </summary>
+    /// <param name="databaseName"></param>
+    /// <returns></returns>
+    public bool ProjectExists(string databaseName) {
+      using (var connection = new SqlConnection(getMasterDatabaseConnectionString())) {
+        string queryString = "SELECT Count(*) FROM sys.databases WHERE [name] = '" + databaseName + "'";
+        using (var command = new SqlCommand(queryString, connection)) {
+          connection.Open();
+          int result = (int)command.ExecuteScalar();
+          return result > 0;
         }
       }
     }
@@ -132,6 +148,17 @@ namespace Taikun.SqlServer {
       dropDatabase(project.DatabaseName);
     }
 
+    public bool ProjectTableExists(IProject project, string tableName) {
+      string queryString = string.Format("SELECT COUNT(*) FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = '{0}'", tableName);
+      using (var connection = new SqlConnection(connectionStringBuilder.ConnectionString)) {
+        using (var command = new SqlCommand(queryString, connection)) {
+          connection.Open();
+          int result = (int)command.ExecuteScalar();
+          return result > 0;
+        }
+      }
+    }
+
     /// <summary>
     /// Creates a new table in the specified database
     /// </summary>
@@ -233,23 +260,6 @@ namespace Taikun.SqlServer {
         using (var command = new SqlCommand(dropDatabaseCommand, connection)) {
           connection.Open();
           command.ExecuteNonQuery();
-        }
-      }
-    }
-
-    private bool databaseExists(string databaseName) {
-      using (var connection = new SqlConnection(getMasterDatabaseConnectionString())) {
-        string queryString = "SELECT Count(*) FROM sys.databases WHERE [name] = '" + databaseName + "'";
-        using (var command = new SqlCommand(queryString, connection)) {
-          connection.Open();
-          try {
-            int result = (int)command.ExecuteScalar();
-            return result > 0;
-          }
-          catch (SqlException ex) {
-            Console.WriteLine(ex);
-            return false;
-          }
         }
       }
     }
