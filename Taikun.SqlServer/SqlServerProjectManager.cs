@@ -193,6 +193,15 @@ namespace Taikun.SqlServer {
           connection.Open();
           command.ExecuteNonQuery();
         }
+        if (sqlServerProjectTable.Schema.Rows.Count > 0) {
+          using (var bulkCopy = new SqlBulkCopy(connection, SqlBulkCopyOptions.KeepIdentity | SqlBulkCopyOptions.TableLock | SqlBulkCopyOptions.FireTriggers, null)) {
+            bulkCopy.DestinationTableName = "[" + sqlServerProjectTable.Name + "]";
+            if (connection.State != ConnectionState.Open) {
+              connection.Open();
+            }
+            bulkCopy.WriteToServer(sqlServerProjectTable.Schema);
+          }
+        }
       }
     }
     
