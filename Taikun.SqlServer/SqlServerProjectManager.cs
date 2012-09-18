@@ -19,7 +19,7 @@ namespace Taikun.SqlServer {
       if (createIfNotExists && !ProjectExists(connectionStringBuilder.InitialCatalog)) {
         createDatabase(connectionStringBuilder.InitialCatalog);
         string createTableCommand = "CREATE TABLE [dbo].[Projects]([ID] [int] IDENTITY(1,1) NOT NULL,[DatabaseName] [varchar](255) NOT NULL,[Description] [varchar](255) NULL)";
-        using (var connection = new SqlConnection(getDatabaseConnectionString(connectionStringBuilder.InitialCatalog))) {
+        using (var connection = new SqlConnection(GetDatabaseConnectionString(connectionStringBuilder.InitialCatalog))) {
           using (var command = new SqlCommand(createTableCommand, connection)) {
             connection.Open();
             command.ExecuteNonQuery();
@@ -150,7 +150,7 @@ namespace Taikun.SqlServer {
 
     public bool ProjectTableExists(IProject project, string tableName) {
       string queryString = string.Format("SELECT COUNT(*) FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = '{0}'", tableName);
-      using (var connection = new SqlConnection(connectionStringBuilder.ConnectionString)) {
+      using (var connection = new SqlConnection(GetDatabaseConnectionString(project.DatabaseName))) {
         using (var command = new SqlCommand(queryString, connection)) {
           connection.Open();
           int result = (int)command.ExecuteScalar();
@@ -188,7 +188,7 @@ namespace Taikun.SqlServer {
         createTableBuilder.Append(")");
       }
       createTableBuilder.Append(")");
-      using (var connection = new SqlConnection(getDatabaseConnectionString(project.DatabaseName))) {
+      using (var connection = new SqlConnection(GetDatabaseConnectionString(project.DatabaseName))) {
         using (var command = new SqlCommand(createTableBuilder.ToString(), connection)) {
           connection.Open();
           command.ExecuteNonQuery();
@@ -212,7 +212,7 @@ namespace Taikun.SqlServer {
       } else {
         selectQuery = string.Format("SELECT TOP 0 * FROM [{0}]", tableName);
       }
-      using (var connection = new SqlConnection(getDatabaseConnectionString(project.DatabaseName))) {
+      using (var connection = new SqlConnection(GetDatabaseConnectionString(project.DatabaseName))) {
         using (var dataAdapter = new SqlDataAdapter(selectQuery, connection)) {
           connection.Open();
           var dataTable = new DataTable();
@@ -226,7 +226,7 @@ namespace Taikun.SqlServer {
     public IEnumerable<IProjectTable> GetProjectTables(IProject project) {
       string selectQuery = "SELECT * FROM sys.Tables";
       var projectTables = new List<IProjectTable>();
-      using (var connection = new SqlConnection(getDatabaseConnectionString(project.DatabaseName))) {
+      using (var connection = new SqlConnection(GetDatabaseConnectionString(project.DatabaseName))) {
         using (var command = new SqlCommand(selectQuery, connection)) {
           connection.Open();
           SqlDataReader dataReader = command.ExecuteReader();
@@ -245,7 +245,7 @@ namespace Taikun.SqlServer {
     /// <param name="projectTable"></param>
     public void DeleteProjectTable(IProject project, IProjectTable projectTable) {
       string deleteCommand = string.Format("DROP TABLE [{0}]", projectTable.Name);
-      using (var connection = new SqlConnection(getDatabaseConnectionString(project.DatabaseName))) {
+      using (var connection = new SqlConnection(GetDatabaseConnectionString(project.DatabaseName))) {
         using (var command = new SqlCommand(deleteCommand, connection)) {
           connection.Open();
           command.ExecuteNonQuery();
@@ -279,7 +279,7 @@ namespace Taikun.SqlServer {
       return builder.ConnectionString;
     }
 
-    private string getDatabaseConnectionString(string databaseName) {
+    public string GetDatabaseConnectionString(string databaseName) {
       var builder = new SqlConnectionStringBuilder(connectionStringBuilder.ConnectionString);
       builder.InitialCatalog = databaseName;
       return builder.ConnectionString;
