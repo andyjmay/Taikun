@@ -18,7 +18,7 @@ namespace Taikun.SqlServer {
       connectionStringBuilder = new SqlConnectionStringBuilder(connectionString);
       if (createIfNotExists && !ProjectExists(connectionStringBuilder.InitialCatalog)) {
         createDatabase(connectionStringBuilder.InitialCatalog);
-        string createTableCommand = "CREATE TABLE [dbo].[Projects]([ID] [int] IDENTITY(1,1) NOT NULL,[DatabaseName] [varchar](255) NOT NULL,[Description] [varchar](255) NULL)";
+        string createTableCommand = "CREATE TABLE [dbo].[Projects]([ID] [int] IDENTITY(1,1) NOT NULL,[DatabaseName] [nvarchar](255) NOT NULL,[Description] [nvarchar](255) NULL)";
         using (var connection = new SqlConnection(GetDatabaseConnectionString(connectionStringBuilder.InitialCatalog))) {
           using (var command = new SqlCommand(createTableCommand, connection)) {
             connection.Open();
