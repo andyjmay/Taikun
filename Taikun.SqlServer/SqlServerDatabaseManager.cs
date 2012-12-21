@@ -18,7 +18,7 @@ namespace Taikun.SqlServer {
       connectionStringBuilder = new SqlConnectionStringBuilder(connectionString);
       if (createIfNotExists && !DatabaseExists(connectionStringBuilder.InitialCatalog)) {
         createDatabase(connectionStringBuilder.InitialCatalog);
-        string createTableCommand = "CREATE TABLE [dbo].[Databases]([ID] [int] IDENTITY(1,1) NOT NULL,[DatabaseName] [nvarchar](255) NOT NULL,[Description] [nvarchar](255) NULL)";
+        string createTableCommand = "CREATE TABLE [dbo].[Databases]([ID] [int] IDENTITY(1,1) NOT NULL,[Name] [nvarchar](255) NOT NULL,[Description] [nvarchar](255) NULL)";
         using (var connection = new SqlConnection(GetDatabaseConnectionString(connectionStringBuilder.InitialCatalog))) {
           using (var command = new SqlCommand(createTableCommand, connection)) {
             connection.Open();
@@ -50,7 +50,7 @@ namespace Taikun.SqlServer {
     /// <returns></returns>
     public IEnumerable<IDatabase> GetAllDatabases() {
       var databases = new List<IDatabase>();
-      string queryString = "SELECT ID, DatabaseName, Description FROM Databases";
+      string queryString = "SELECT ID, Name, Description FROM Databases";
 
       using (var connection = new SqlConnection(connectionStringBuilder.ConnectionString)) {       
         using (var command = new SqlCommand(queryString, connection)) {
@@ -60,7 +60,7 @@ namespace Taikun.SqlServer {
           while (dataReader.Read()) {
             databases.Add(new SqlServerDatabase {
               Id = Convert.ToInt32(dataReader["ID"]),
-              DatabaseName = dataReader["DatabaseName"].ToString(),
+              Name = dataReader["Name"].ToString(),
               Description = dataReader["Description"].ToString()
             });
           }
@@ -75,17 +75,17 @@ namespace Taikun.SqlServer {
     /// <param name="databaseName"></param>
     /// <returns></returns>
     public IDatabase GetDatabase(string databaseName) {
-      string queryString = "SELECT ID, DatabaseName, Description FROM Databases WHERE DatabaseName=@DatabaseName";
+      string queryString = "SELECT ID, Name, Description FROM Databases WHERE Name=@Name";
 
       using (var connection = new SqlConnection(connectionStringBuilder.ConnectionString)) {
         using (var command = new SqlCommand(queryString, connection)) {
-          command.Parameters.AddWithValue("@DatabaseName", databaseName);
+          command.Parameters.AddWithValue("@Name", databaseName);
           connection.Open();
           SqlDataReader dataReader = command.ExecuteReader(CommandBehavior.CloseConnection);
           dataReader.Read();
           return new SqlServerDatabase {
             Id = Convert.ToInt32(dataReader["ID"]),
-            DatabaseName = dataReader["DatabaseName"].ToString(),
+            Name = dataReader["Name"].ToString(),
             Description = dataReader["Description"].ToString()
           };
         }
@@ -98,17 +98,17 @@ namespace Taikun.SqlServer {
     /// <param name="database">The database to create</param>
     /// <returns></returns>
     public IDatabase CreateDatabase(IDatabase database) {
-      string insertCommand = "INSERT INTO Databases (DatabaseName, Description) Values (@DatabaseName, @Description); SELECT SCOPE_IDENTITY()";
-      createDatabase(database.DatabaseName);
+      string insertCommand = "INSERT INTO Databases (Name, Description) Values (@Name, @Description); SELECT SCOPE_IDENTITY()";
+      createDatabase(database.Name);
       using (var connection = new SqlConnection(connectionStringBuilder.ConnectionString)) {
         using (var command = new SqlCommand(insertCommand, connection)) {
-          command.Parameters.AddWithValue("@DatabaseName", database.DatabaseName);
+          command.Parameters.AddWithValue("@Name", database.Name);
           command.Parameters.AddWithValue("@Description", database.Description);
           connection.Open();
           int id = Convert.ToInt32(command.ExecuteScalar());
           return new SqlServerDatabase {
             Id = id,
-            DatabaseName = database.DatabaseName,
+            Name = database.Name,
             Description = database.Description
           };
         }
@@ -121,11 +121,11 @@ namespace Taikun.SqlServer {
     /// <param name="database">The database to update</param>
     /// <returns>Updated database</returns>
     public IDatabase UpdateDatabase(IDatabase database) {
-      string updateCommand = "UPDATE Databases SET Description=@Description WHERE DatabaseName=@DatabaseName";
+      string updateCommand = "UPDATE Databases SET Description=@Description WHERE Name=@Name";
       using (var connection = new SqlConnection(connectionStringBuilder.ConnectionString)) {
         using (var command = new SqlCommand(updateCommand, connection)) {
           command.Parameters.AddWithValue("@Description", database.Description);
-          command.Parameters.AddWithValue("@DatabaseName", database.DatabaseName);
+          command.Parameters.AddWithValue("@Name", database.Name);
           connection.Open();
           command.ExecuteNonQuery();
         }
@@ -138,19 +138,19 @@ namespace Taikun.SqlServer {
     /// </summary>
     /// <param name="database">database to delete</param>
     public void DeleteDatabase(IDatabase database) {
-      string deleteDatabaseCommand = string.Format("DELETE FROM [Databases] WHERE [DatabaseName]='{0}'", database.DatabaseName);
+      string deleteDatabaseCommand = string.Format("DELETE FROM [Databases] WHERE [Name]='{0}'", database.Name);
       using (var connection = new SqlConnection(connectionStringBuilder.ConnectionString)) {
         using (var command = new SqlCommand(deleteDatabaseCommand, connection)) {
           connection.Open();
           command.ExecuteNonQuery();
         }
       }
-      dropDatabase(database.DatabaseName);
+      dropDatabase(database.Name);
     }
 
     public bool DatabaseTableExists(IDatabase database, string tableName) {
       string queryString = string.Format("SELECT COUNT(*) FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = '{0}'", tableName);
-      using (var connection = new SqlConnection(GetDatabaseConnectionString(database.DatabaseName))) {
+      using (var connection = new SqlConnection(GetDatabaseConnectionString(database.Name))) {
         using (var command = new SqlCommand(queryString, connection)) {
           connection.Open();
           int result = (int)command.ExecuteScalar();
@@ -188,7 +188,7 @@ namespace Taikun.SqlServer {
         createTableBuilder.Append(")");
       }
       createTableBuilder.Append(")");
-      using (var connection = new SqlConnection(GetDatabaseConnectionString(database.DatabaseName))) {
+      using (var connection = new SqlConnection(GetDatabaseConnectionString(database.Name))) {
         using (var command = new SqlCommand(createTableBuilder.ToString(), connection)) {
           connection.Open();
           command.ExecuteNonQuery();
@@ -212,7 +212,7 @@ namespace Taikun.SqlServer {
       } else {
         selectQuery = string.Format("SELECT TOP 0 * FROM [{0}]", tableName);
       }
-      using (var connection = new SqlConnection(GetDatabaseConnectionString(database.DatabaseName))) {
+      using (var connection = new SqlConnection(GetDatabaseConnectionString(database.Name))) {
         using (var dataAdapter = new SqlDataAdapter(selectQuery, connection)) {
           connection.Open();
           var dataTable = new DataTable();
@@ -226,7 +226,7 @@ namespace Taikun.SqlServer {
     public IEnumerable<IDatabaseTable> GetDatabaseTables(IDatabase database) {
       string selectQuery = "SELECT * FROM sys.Tables";
       var databaseTables = new List<IDatabaseTable>();
-      using (var connection = new SqlConnection(GetDatabaseConnectionString(database.DatabaseName))) {
+      using (var connection = new SqlConnection(GetDatabaseConnectionString(database.Name))) {
         using (var command = new SqlCommand(selectQuery, connection)) {
           connection.Open();
           SqlDataReader dataReader = command.ExecuteReader();
@@ -245,7 +245,7 @@ namespace Taikun.SqlServer {
     /// <param name="databaseTable"></param>
     public void DeleteDatabaseTable(IDatabase database, IDatabaseTable databaseTable) {
       string deleteCommand = string.Format("DROP TABLE [{0}]", databaseTable.Name);
-      using (var connection = new SqlConnection(GetDatabaseConnectionString(database.DatabaseName))) {
+      using (var connection = new SqlConnection(GetDatabaseConnectionString(database.Name))) {
         using (var command = new SqlCommand(deleteCommand, connection)) {
           connection.Open();
           command.ExecuteNonQuery();

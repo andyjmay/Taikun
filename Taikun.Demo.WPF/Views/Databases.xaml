@@ -21,7 +21,7 @@
           <StackPanel Orientation="Horizontal" Margin="5">
             <Button Content="Select" Command="{Binding DataContext.SelectDatabase, RelativeSource={RelativeSource AncestorType=UserControl, Mode=FindAncestor}}" CommandParameter="{Binding}" />
             <StackPanel Margin="10,0,0,0">
-              <TextBlock Text="{Binding DatabaseName}" FontSize="16" />
+              <TextBlock Text="{Binding Name}" FontSize="16" />
               <TextBlock Text="{Binding Description}" FontSize="12" />
             </StackPanel>
           </StackPanel>

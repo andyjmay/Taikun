@@ -9,7 +9,7 @@ namespace Taikun.Demo.WPF.Views {
 
     private void databaseSelectedEventHandler(Events.DatabaseSelected databaseSelectedEvent) {
       TablesTab.IsSelected = true;
-      this.Title = "Taikun Demo - " + databaseSelectedEvent.Database.DatabaseName;
+      this.Title = "Taikun Demo - " + databaseSelectedEvent.Database.Name;
     }
 
     private void databaseCreatedEventHandler(Events.DatabaseCreated databaseCreatedEvent) {

@@ -38,23 +38,23 @@ namespace Taikun.Demo.WPF.ViewModels {
       } else {
         Databases = new ObservableCollection<IDatabase> {
           new SqlServerDatabase {
-            DatabaseName = "Test",
+            Name = "Test",
             Description = "This is a test"
           },
           new SqlServerDatabase {
-            DatabaseName = "Test 2",
+            Name = "Test 2",
             Description = "This is a test"
           },
           new SqlServerDatabase {
-            DatabaseName = "Test 3",
+            Name = "Test 3",
             Description = "This is a test"
           },
           new SqlServerDatabase {
-            DatabaseName = "Test 4",
+            Name = "Test 4",
             Description = "This is a test"
           },
           new SqlServerDatabase {
-            DatabaseName = "Test 5",
+            Name = "Test 5",
             Description = "This is a test"
           }
         };
