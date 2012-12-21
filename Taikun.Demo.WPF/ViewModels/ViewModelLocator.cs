@@ -7,7 +7,7 @@ namespace Taikun.Demo.WPF.ViewModels {
   public class ViewModelLocator {
     public ViewModelLocator() {
       ServiceLocator.SetLocatorProvider(() => SimpleIoc.Default);            
-      SimpleIoc.Default.Register<IDatabaseManager>(() => new SqlServerDatabaseManager(Settings.Default.TaikunDatabase), true);            
+      SimpleIoc.Default.Register<IDatabaseManager>(() => new SqlServerDatabaseManager(Settings.Default.TaikunDatabase, createIfNotExists: true), true);
       SimpleIoc.Default.Register<CreateDatabaseTableViewModel>(true);
       SimpleIoc.Default.Register<ViewDatabaseTableViewModel>(true);
       SimpleIoc.Default.Register<CreateDatabaseViewModel>(true);

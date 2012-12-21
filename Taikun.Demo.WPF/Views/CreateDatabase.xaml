@@ -17,10 +17,10 @@
         <RowDefinition Height="Auto" />
       </Grid.RowDefinitions>
       <Grid.ColumnDefinitions>
-        <ColumnDefinition Width="120" />
+        <ColumnDefinition Width="Auto" />
         <ColumnDefinition Width="*" />
       </Grid.ColumnDefinitions>
-      <TextBlock Grid.Row="0" Grid.Column="0" Text="database Name:" FontSize="18" VerticalAlignment="Center" HorizontalAlignment="Right" Style="{StaticResource TextBlockStyle}" />
+      <TextBlock Grid.Row="0" Grid.Column="0" Text="Database Name:" FontSize="18" VerticalAlignment="Center" HorizontalAlignment="Right" Style="{StaticResource TextBlockStyle}" />
       <TextBox Grid.Row="0" Grid.Column="1" Margin="5" Text="{Binding DatabaseName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" FontSize="18" Width="200" HorizontalAlignment="Left" />
       <TextBlock Grid.Row="1" Grid.Column="0" Text="Description:" FontSize="18" VerticalAlignment="Center" HorizontalAlignment="Right" Style="{StaticResource TextBlockStyle}" />
       <TextBox Grid.Row="1" Grid.Column="1" Margin="5" Text="{Binding DatabaseDescription, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" FontSize="18" Width="200" HorizontalAlignment="Left" />
