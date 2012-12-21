@@ -1,9 +1,6 @@
 ﻿using GalaSoft.MvvmLight;
-using System.Collections.ObjectModel;
 using GalaSoft.MvvmLight.Command;
-using Taikun.Demo.WPF.Models;
 using Taikun.SqlServer;
-using System.Data;
 using GalaSoft.MvvmLight.Messaging;
 
 namespace Taikun.Demo.WPF.ViewModels {
@@ -36,7 +33,7 @@ namespace Taikun.Demo.WPF.ViewModels {
     }
 
     private void createDatabase() {
-      IDatabase database = databaseManager.CreateDatabase(new SqlServerDatabase {
+      IDatabase database = databaseManager.CreateDatabase(new SqlServerDatabase(databaseManager.GetDatabaseConnectionString(DatabaseName)) {
         Name = DatabaseName,
         Description = DatabaseDescription
       });

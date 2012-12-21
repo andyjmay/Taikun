@@ -77,7 +77,8 @@ namespace Taikun.SqlServer.Tests {
     }
 
     private IDatabase getRandomDatabase() {
-      return new SqlServerDatabase {
+      string databaseName = Guid.NewGuid().ToString();
+      return new SqlServerDatabase(GetDatabaseConnectionString(databaseName)) {
         Name = Guid.NewGuid().ToString(),
         Description = DateTime.Now.ToFileTimeUtc().ToString()
       };
@@ -102,6 +103,12 @@ namespace Taikun.SqlServer.Tests {
     private string getMasterDatabaseConnectionString() {
       var builder = new SqlConnectionStringBuilder(connectionStringBuilder.ConnectionString);
       builder.InitialCatalog = "master";
+      return builder.ConnectionString;
+    }
+
+    private string GetDatabaseConnectionString(string databaseName) {
+      var builder = new SqlConnectionStringBuilder(connectionStringBuilder.ConnectionString);
+      builder.InitialCatalog = databaseName;
       return builder.ConnectionString;
     }
   }

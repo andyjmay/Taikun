@@ -72,7 +72,7 @@ namespace Taikun.Demo.WPF.ViewModels {
     private void databaseSelectedEventHandler(Events.DatabaseSelected databaseSelectedEvent) {
       Tables.Clear();
       SelectedDatabase = databaseSelectedEvent.Database;
-      foreach (IDatabaseTable databaseTable in databaseManager.GetDatabaseTables(SelectedDatabase)) {
+      foreach (IDatabaseTable databaseTable in SelectedDatabase.GetDatabaseTables()) {
         Tables.Add(databaseTable);
       }
     }

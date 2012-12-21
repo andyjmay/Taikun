@@ -53,7 +53,7 @@ namespace Taikun.Demo.WPF.ViewModels {
 
     private void databaseTableSelectedEventHandler(Events.DatabaseTableSelected databaseTableSelectedEvent) {
       if (databaseTableSelectedEvent.DatabaseTable != null) {
-        var table = databaseManager.GetDatabaseTable(SelectedDatabase, databaseTableSelectedEvent.DatabaseTable.Name, loadData: false) as SqlServerDatabaseTable;
+        var table = SelectedDatabase.GetDatabaseTable(databaseTableSelectedEvent.DatabaseTable.Name, loadData: false) as SqlServerDatabaseTable;
         if (table != null) {
           SelectedDatabaseTable = table;
           SelectedTableData = table.Schema;
@@ -65,7 +65,7 @@ namespace Taikun.Demo.WPF.ViewModels {
     }
     
     private void loadDatabaseTableData() {
-      IDatabaseTable databaseTableWithData = databaseManager.GetDatabaseTable(SelectedDatabase, SelectedDatabaseTable.Name, loadData: true);
+      IDatabaseTable databaseTableWithData = SelectedDatabase.GetDatabaseTable(SelectedDatabaseTable.Name, loadData: true);
       SelectedTableData = ((SqlServerDatabaseTable)databaseTableWithData).Schema;
     }
 

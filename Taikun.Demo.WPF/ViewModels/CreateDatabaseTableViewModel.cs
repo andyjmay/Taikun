@@ -113,7 +113,7 @@ namespace Taikun.Demo.WPF.ViewModels {
       }
       dataTable.PrimaryKey = primaryKeyColumns.ToArray();
       var databaseTable = new SqlServerDatabaseTable(dataTable);
-      databaseManager.CreateDatabaseTable(SelectedDatabase, databaseTable);
+      SelectedDatabase.CreateDatabaseTable(databaseTable);
       Messenger.Default.Send(new Events.DatabaseTableCreated(databaseTable));
     }
 

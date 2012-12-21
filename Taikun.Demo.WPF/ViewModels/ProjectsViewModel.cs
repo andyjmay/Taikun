@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.ObjectModel;
 using GalaSoft.MvvmLight;
-using Taikun.Demo.WPF.Properties;
 using Taikun.SqlServer;
 using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Messaging;
@@ -37,23 +32,23 @@ namespace Taikun.Demo.WPF.ViewModels {
         Databases = new ObservableCollection<IDatabase>(databaseManager.GetAllDatabases());
       } else {
         Databases = new ObservableCollection<IDatabase> {
-          new SqlServerDatabase {
+          new SqlServerDatabase(databaseManager.GetDatabaseConnectionString("Test")) {
             Name = "Test",
             Description = "This is a test"
           },
-          new SqlServerDatabase {
+          new SqlServerDatabase(databaseManager.GetDatabaseConnectionString("Test 2")) {
             Name = "Test 2",
             Description = "This is a test"
           },
-          new SqlServerDatabase {
+          new SqlServerDatabase(databaseManager.GetDatabaseConnectionString("Test 3")) {
             Name = "Test 3",
             Description = "This is a test"
           },
-          new SqlServerDatabase {
+          new SqlServerDatabase(databaseManager.GetDatabaseConnectionString("Test 4")) {
             Name = "Test 4",
             Description = "This is a test"
           },
-          new SqlServerDatabase {
+          new SqlServerDatabase(databaseManager.GetDatabaseConnectionString("Test 5")) {
             Name = "Test 5",
             Description = "This is a test"
           }
