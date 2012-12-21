@@ -16,7 +16,7 @@ namespace Taikun.SqlServer {
       connectionStringBuilder = new SqlConnectionStringBuilder(connectionString);
       if (createIfNotExists && !DatabaseExists(connectionStringBuilder.InitialCatalog)) {
         createDatabase(connectionStringBuilder.InitialCatalog);
-        string createTableCommand = "CREATE TABLE [dbo].[Databases]([ID] [int] IDENTITY(1,1) NOT NULL,[Name] [nvarchar](255) NOT NULL,[Description] [nvarchar](255) NULL)";
+        string createTableCommand = "CREATE TABLE [dbo].[Databases]([ID] [int] IDENTITY(1,1) NOT NULL,[Name] [nvarchar](255) NOT NULL,[Description] [nvarchar](255) NULL, CONSTRAINT [PK_Databases] PRIMARY KEY CLUSTERED([ID] ASC))";
         using (var connection = new SqlConnection(GetDatabaseConnectionString(connectionStringBuilder.InitialCatalog))) {
           using (var command = new SqlCommand(createTableCommand, connection)) {
             connection.Open();
