@@ -9,11 +9,10 @@ string connectionString = @"Data Source=(local)\SQLEXPRESS;Initial Catalog=Taiku
 
 // Create the Taikun database to manage all other databases we create
 var databaseManager = new SqlServerDatabaseManager(connectionString, createIfNotExists: true);
-    
+
 // Create a new database
 string databaseName = "Test";
-IDatabase database = databaseManager.CreateDatabase(new SqlServerDatabase(databaseManager.GetDatabaseConnectionString(databaseName)) {
-    Name = databaseName,
+IDatabase database = databaseManager.CreateDatabase(new SqlServerDatabase(databaseManager, databaseName) {
     Description = "This is a test"
 });
 

@@ -57,9 +57,8 @@ namespace Taikun.SqlServer {
           SqlDataReader dataReader = command.ExecuteReader(CommandBehavior.CloseConnection);
           while (dataReader.Read()) {
             string databaseName = dataReader["Name"].ToString();
-            databases.Add(new SqlServerDatabase(GetDatabaseConnectionString(databaseName)) {
+            databases.Add(new SqlServerDatabase(this, databaseName) {
               Id = Convert.ToInt32(dataReader["ID"]),
-              Name = databaseName,
               Description = dataReader["Description"].ToString()
             });
           }
@@ -82,9 +81,8 @@ namespace Taikun.SqlServer {
           connection.Open();
           SqlDataReader dataReader = command.ExecuteReader(CommandBehavior.CloseConnection);
           dataReader.Read();
-          return new SqlServerDatabase(GetDatabaseConnectionString(databaseName)) {
+          return new SqlServerDatabase(this, databaseName) {
             Id = Convert.ToInt32(dataReader["ID"]),
-            Name = dataReader["Name"].ToString(),
             Description = dataReader["Description"].ToString()
           };
         }
@@ -102,12 +100,11 @@ namespace Taikun.SqlServer {
       using (var connection = new SqlConnection(connectionStringBuilder.ConnectionString)) {
         using (var command = new SqlCommand(insertCommand, connection)) {
           command.Parameters.AddWithValue("@Name", database.Name);
-          command.Parameters.AddWithValue("@Description", database.Description);
+          command.Parameters.AddWithValue("@Description", database.Description ?? string.Empty);
           connection.Open();
           int id = Convert.ToInt32(command.ExecuteScalar());
-          return new SqlServerDatabase(GetDatabaseConnectionString(database.Name)) {
+          return new SqlServerDatabase(this, database.Name) {
             Id = id,
-            Name = database.Name,
             Description = database.Description
           };
         }

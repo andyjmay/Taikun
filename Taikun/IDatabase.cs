@@ -2,9 +2,8 @@
 
 namespace Taikun {
   public interface IDatabase {
-    string Name { get; set; }
+    string Name { get; }
     string Description { get; set; }
-    string ConnectionString { get; }
 
     bool DatabaseTableExists(string tableName);
     void CreateDatabaseTable(IDatabaseTable databaseTable);

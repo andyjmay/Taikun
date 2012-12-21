@@ -32,24 +32,19 @@ namespace Taikun.Demo.WPF.ViewModels {
         Databases = new ObservableCollection<IDatabase>(databaseManager.GetAllDatabases());
       } else {
         Databases = new ObservableCollection<IDatabase> {
-          new SqlServerDatabase(databaseManager.GetDatabaseConnectionString("Test")) {
-            Name = "Test",
+          new SqlServerDatabase(databaseManager, "Test") {
             Description = "This is a test"
           },
-          new SqlServerDatabase(databaseManager.GetDatabaseConnectionString("Test 2")) {
-            Name = "Test 2",
+          new SqlServerDatabase(databaseManager, "Test 2") {
             Description = "This is a test"
           },
-          new SqlServerDatabase(databaseManager.GetDatabaseConnectionString("Test 3")) {
-            Name = "Test 3",
+          new SqlServerDatabase(databaseManager, "Test 3") {
             Description = "This is a test"
           },
-          new SqlServerDatabase(databaseManager.GetDatabaseConnectionString("Test 4")) {
-            Name = "Test 4",
+          new SqlServerDatabase(databaseManager, "Test 4") {
             Description = "This is a test"
           },
-          new SqlServerDatabase(databaseManager.GetDatabaseConnectionString("Test 5")) {
-            Name = "Test 5",
+          new SqlServerDatabase(databaseManager, "Test 5") {
             Description = "This is a test"
           }
         };

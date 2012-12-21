@@ -17,7 +17,7 @@ namespace Taikun.SqlServer.Tests {
       var databaseManager = new SqlServerDatabaseManager(connectionStringBuilder.ConnectionString, true);
       var createdDatabases = new List<IDatabase>();
       for (int i = 0; i < 10; i++) {
-        createdDatabases.Add(databaseManager.CreateDatabase(getRandomDatabase()));
+        createdDatabases.Add(databaseManager.CreateDatabase(getRandomDatabase(databaseManager)));
       }
       IEnumerable<IDatabase> databases = databaseManager.GetAllDatabases();
       Assert.IsTrue(databases.Any());
@@ -29,7 +29,7 @@ namespace Taikun.SqlServer.Tests {
       var databaseManager = new SqlServerDatabaseManager(connectionStringBuilder.ConnectionString, true);
       var createdDatabases = new List<IDatabase>();
       for (int i = 0; i < 10; i++) {
-        createdDatabases.Add(databaseManager.CreateDatabase(getRandomDatabase()));
+        createdDatabases.Add(databaseManager.CreateDatabase(getRandomDatabase(databaseManager)));
       }
       IDatabase databaseToFind = createdDatabases[new Random().Next(0, createdDatabases.Count - 1)];
       IDatabase databaseFound = databaseManager.GetDatabase(databaseToFind.Name);
@@ -41,7 +41,7 @@ namespace Taikun.SqlServer.Tests {
     [TestMethod]
     public void CreateDatabase_CreatesDatabase() {
       var databaseManager = new SqlServerDatabaseManager(connectionStringBuilder.ConnectionString, true);
-      IDatabase createdDatabase = databaseManager.CreateDatabase(getRandomDatabase());
+      IDatabase createdDatabase = databaseManager.CreateDatabase(getRandomDatabase(databaseManager));
       Assert.IsNotNull(createdDatabase);
       Assert.IsTrue(databaseExists(createdDatabase.Name));
       deleteAllDatabases();
@@ -50,7 +50,7 @@ namespace Taikun.SqlServer.Tests {
     [TestMethod]
     public void UpdateDatabase_UpdatesDatabase() {
       var databaseManager = new SqlServerDatabaseManager(connectionStringBuilder.ConnectionString, true);
-      IDatabase createdDatabase = databaseManager.CreateDatabase(getRandomDatabase());
+      IDatabase createdDatabase = databaseManager.CreateDatabase(getRandomDatabase(databaseManager));
       string newDescription = DateTime.Now.ToFileTimeUtc().ToString();
       createdDatabase.Description = newDescription;
       databaseManager.UpdateDatabase(createdDatabase);
@@ -64,7 +64,7 @@ namespace Taikun.SqlServer.Tests {
     [TestMethod]
     public void DeleteDatabase_DeletesDatabase() {
       var databaseManager = new SqlServerDatabaseManager(connectionStringBuilder.ConnectionString, true);
-      IDatabase createdDatabase = databaseManager.CreateDatabase(getRandomDatabase());
+      IDatabase createdDatabase = databaseManager.CreateDatabase(getRandomDatabase(databaseManager));
       databaseManager.DeleteDatabase(createdDatabase);
       Assert.IsFalse(databaseExists(createdDatabase.Name));
     }
@@ -76,10 +76,9 @@ namespace Taikun.SqlServer.Tests {
       }
     }
 
-    private IDatabase getRandomDatabase() {
+    private IDatabase getRandomDatabase(IDatabaseManager databaseManager) {
       string databaseName = Guid.NewGuid().ToString();
-      return new SqlServerDatabase(GetDatabaseConnectionString(databaseName)) {
-        Name = Guid.NewGuid().ToString(),
+      return new SqlServerDatabase(databaseManager, databaseName) {
         Description = DateTime.Now.ToFileTimeUtc().ToString()
       };
     }

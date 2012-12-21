@@ -8,12 +8,13 @@ using Taikun.SqlServer.Helpers;
 namespace Taikun.SqlServer {
   public class SqlServerDatabase : IDatabase {
     public int Id { get; set; }
-    public string Name { get; set; }
+    public string Name { get; private set; }
     public string Description { get; set; }
     public string ConnectionString { get; private set; }
 
-    public SqlServerDatabase(string connectionString) {
-      this.ConnectionString = connectionString;
+    public SqlServerDatabase(IDatabaseManager databaseManager, string name) {
+      this.Name = name;
+      this.ConnectionString = databaseManager.GetDatabaseConnectionString(name);
     }
 
     public bool DatabaseTableExists(string tableName) {
