@@ -9,11 +9,12 @@ string connectionString = @"Data Source=(local)\SQLEXPRESS;Initial Catalog=Taiku
 
 // Create the Taikun database to manage all other databases we create
 var databaseManager = new SqlServerDatabaseManager(connectionString, createIfNotExists: true);
-
+    
 // Create a new database
-IDatabase database = databaseManager.CreateDatabase(new SqlServerDatabase {
-  DatabaseName = "Test",
-  Description = "This is a test"
+string databaseName = "Test";
+IDatabase database = databaseManager.CreateDatabase(new SqlServerDatabase(databaseManager.GetDatabaseConnectionString(databaseName)) {
+    Name = databaseName,
+    Description = "This is a test"
 });
 
 // Create a new table in the newly created database  
@@ -23,5 +24,5 @@ dataTable.PrimaryKey = new DataColumn[] { dataTable.Columns["ID"] };
 dataTable.Columns.Add("Something", typeof(string));
 dataTable.Columns.Add(new DataColumn("VeryLongText", typeof(string)){ MaxLength = int.MaxValue });    
 IDatabaseTable table = new SqlServerDatabaseTable(dataTable);
-databaseManager.CreateDatabaseTable(database, table);
+database.CreateDatabaseTable(table);
 ```
