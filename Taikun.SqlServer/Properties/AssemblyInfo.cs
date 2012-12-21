@@ -8,9 +8,9 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("Taikun.SqlServer")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Hewlett-Packard")]
+[assembly: AssemblyCompany("andyjmay")]
 [assembly: AssemblyProduct("Taikun.SqlServer")]
-[assembly: AssemblyCopyright("Copyright © Hewlett-Packard 2012")]
+[assembly: AssemblyCopyright("Copyright © andyjmay 2012")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

@@ -59,7 +59,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="SqlServerProjectManagerTests.cs" />
+    <Compile Include="SqlServerDatabaseManagerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

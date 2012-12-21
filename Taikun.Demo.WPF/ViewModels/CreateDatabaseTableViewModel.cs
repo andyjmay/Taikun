@@ -9,8 +9,8 @@ using Taikun.Demo.WPF.Models;
 using Taikun.SqlServer;
 
 namespace Taikun.Demo.WPF.ViewModels {
-  public class CreateProjectTableViewModel : ViewModelBase {
-    private readonly IProjectManager projectManager;
+  public class CreateDatabaseTableViewModel : ViewModelBase {
+    private readonly IDatabaseManager databaseManager;
 
     private string tableName;
     public string TableName {
@@ -30,27 +30,27 @@ namespace Taikun.Demo.WPF.ViewModels {
       }
     }
 
-    private IProject selectedProject;
-    public IProject SelectedProject {
-      get { return selectedProject; }
+    private IDatabase selectedDatabase;
+    public IDatabase SelectedDatabase {
+      get { return selectedDatabase; }
       set {
-        selectedProject = value;
-        RaisePropertyChanged(() => SelectedProject);
+        selectedDatabase = value;
+        RaisePropertyChanged(() => SelectedDatabase);
       }
     }
 
-    public ObservableCollection<SqlServerTableColumn> ProjectColumns { get; private set; }
+    public ObservableCollection<SqlServerTableColumn> DatabaseColumns { get; private set; }
     
     public RelayCommand AddColumn { get; private set; }
     public RelayCommand RemoveColumn { get; private set; }
-    public RelayCommand CreateProjectTable { get; private set; }
+    public RelayCommand CreateDatabaseTable { get; private set; }
 
-    public CreateProjectTableViewModel(IProjectManager projectManager) {
-      this.projectManager = projectManager;
+    public CreateDatabaseTableViewModel(IDatabaseManager databaseManager) {
+      this.databaseManager = databaseManager;
       if (!IsInDesignMode) {
-        ProjectColumns = new ObservableCollection<SqlServerTableColumn>();
+        DatabaseColumns = new ObservableCollection<SqlServerTableColumn>();
       } else {
-        ProjectColumns = new ObservableCollection<SqlServerTableColumn> {
+        DatabaseColumns = new ObservableCollection<SqlServerTableColumn> {
           new SqlServerTableColumn {
             Name = "ID",
             Type = "int"
@@ -78,24 +78,24 @@ namespace Taikun.Demo.WPF.ViewModels {
         };
       }
 
-      AddColumn = new RelayCommand(() => ProjectColumns.Add(new SqlServerTableColumn()));
+      AddColumn = new RelayCommand(() => DatabaseColumns.Add(new SqlServerTableColumn()));
       RemoveColumn = new RelayCommand(() => {
         if (SelectedColumn == null) {
           return;
         }
-        ProjectColumns.Remove(SelectedColumn);
+        DatabaseColumns.Remove(SelectedColumn);
       }, () => SelectedColumn != null);
-      CreateProjectTable = new RelayCommand(createProjectTable, () => !string.IsNullOrWhiteSpace(TableName));
-      Messenger.Default.Register<Events.ProjectSelected>(this, selected => {
-        SelectedProject = selected.Project;
+      CreateDatabaseTable = new RelayCommand(createDatabaseTable, () => !string.IsNullOrWhiteSpace(TableName));
+      Messenger.Default.Register<Events.DatabaseSelected>(this, selected => {
+        SelectedDatabase = selected.Database;
       });
       
     }
 
-    private void createProjectTable() {
+    private void createDatabaseTable() {
       var dataTable = new DataTable(TableName);
       var primaryKeyColumns = new List<DataColumn>();
-      foreach (SqlServerTableColumn sqlServerTableColumn in ProjectColumns) {
+      foreach (SqlServerTableColumn sqlServerTableColumn in DatabaseColumns) {
         var dataColumn = new DataColumn(sqlServerTableColumn.Name, getTypeForColumn(sqlServerTableColumn));
         dataColumn.AllowDBNull = sqlServerTableColumn.AllowNulls;
         if (sqlServerTableColumn.Length.HasValue) {
@@ -112,9 +112,9 @@ namespace Taikun.Demo.WPF.ViewModels {
         }
       }
       dataTable.PrimaryKey = primaryKeyColumns.ToArray();
-      var projectTable = new SqlServerProjectTable(dataTable);
-      projectManager.CreateProjectTable(SelectedProject, projectTable);
-      Messenger.Default.Send(new Events.ProjectTableCreated(projectTable));
+      var databaseTable = new SqlServerDatabaseTable(dataTable);
+      databaseManager.CreateDatabaseTable(SelectedDatabase, databaseTable);
+      Messenger.Default.Send(new Events.DatabaseTableCreated(databaseTable));
     }
 
     private Type getTypeForColumn(SqlServerTableColumn sqlServerTableColumn) {

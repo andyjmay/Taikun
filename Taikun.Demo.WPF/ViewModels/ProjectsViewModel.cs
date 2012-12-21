@@ -10,63 +10,63 @@ using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Messaging;
 
 namespace Taikun.Demo.WPF.ViewModels {
-  public class ProjectsViewModel : ViewModelBase {
-    private readonly IProjectManager projectManager;
+  public class DatabasesViewModel : ViewModelBase {
+    private readonly IDatabaseManager databaseManager;
 
-    public ObservableCollection<IProject> Projects { get; private set; }
+    public ObservableCollection<IDatabase> Databases { get; private set; }
 
-    //private SqlServerProject selectedProject;
-    //public SqlServerProject SelectedProject {
-    //  get { return selectedProject; }
+    //private SqlServerDatabase selectedDatabase;
+    //public SqlServerDatabase selectedDatabase {
+    //  get { return selectedDatabase; }
     //  set {
-    //    selectedProject = value;
-    //    RaisePropertyChanged(() => SelectedProject);
+    //    selectedDatabase = value;
+    //    RaisePropertyChanged(() => selectedDatabase);
     //  }
     //}
 
-    public RelayCommand<IProject> SelectProject { get; private set; } 
+    public RelayCommand<IDatabase> SelectDatabase { get; private set; } 
 
-    public ProjectsViewModel(IProjectManager projectManager) {
-      this.projectManager = projectManager;
-      SelectProject = new RelayCommand<IProject>((project) => {
-        var projectSelected = new Events.ProjectSelected(project);
-        Messenger.Default.Send<Events.ProjectSelected>(projectSelected);
+    public DatabasesViewModel(IDatabaseManager databaseManager) {
+      this.databaseManager = databaseManager;
+      SelectDatabase = new RelayCommand<IDatabase>((database) => {
+        var databaseSelected = new Events.DatabaseSelected(database);
+        Messenger.Default.Send<Events.DatabaseSelected>(databaseSelected);
       });
 
       if (!IsInDesignMode) {
-        Projects = new ObservableCollection<IProject>(projectManager.GetAllProjects());
+        Databases = new ObservableCollection<IDatabase>(databaseManager.GetAllDatabases());
       } else {
-        Projects = new ObservableCollection<IProject> {
-          new SqlServerProject {
+        Databases = new ObservableCollection<IDatabase> {
+          new SqlServerDatabase {
             DatabaseName = "Test",
             Description = "This is a test"
           },
-          new SqlServerProject {
+          new SqlServerDatabase {
             DatabaseName = "Test 2",
             Description = "This is a test"
           },
-          new SqlServerProject {
+          new SqlServerDatabase {
             DatabaseName = "Test 3",
             Description = "This is a test"
           },
-          new SqlServerProject {
+          new SqlServerDatabase {
             DatabaseName = "Test 4",
             Description = "This is a test"
           },
-          new SqlServerProject {
+          new SqlServerDatabase {
             DatabaseName = "Test 5",
             Description = "This is a test"
           }
         };
       }
 
-      Messenger.Default.Register<Events.ProjectCreated>(this, projectCreatedEventHandler);
+      Messenger.Default.Register<Events.DatabaseCreated>(this, databaseCreatedEventHandler);
     }
 
-    private void projectCreatedEventHandler(Events.ProjectCreated projectCreatedEvent) {
-      Projects.Clear();
-      foreach (IProject project in projectManager.GetAllProjects()) {
-        Projects.Add(project);
+    private void databaseCreatedEventHandler(Events.DatabaseCreated databaseCreatedEvent) {
+      Databases.Clear();
+      foreach (IDatabase database in databaseManager.GetAllDatabases()) {
+        Databases.Add(database);
       }
     }
   }

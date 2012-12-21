@@ -41,9 +41,9 @@
   <ItemGroup>
     <Compile Include="Helpers\DataTypeExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SqlServerProjectTable.cs" />
-    <Compile Include="SqlServerProject.cs" />
-    <Compile Include="SqlServerProjectManager.cs" />
+    <Compile Include="SqlServerDatabaseTable.cs" />
+    <Compile Include="SqlServerDatabase.cs" />
+    <Compile Include="SqlServerDatabaseManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Taikun\Taikun.csproj">

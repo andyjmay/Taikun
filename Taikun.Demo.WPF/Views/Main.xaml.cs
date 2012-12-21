@@ -3,17 +3,17 @@
 namespace Taikun.Demo.WPF.Views {
   public partial class Main {
     public Main() {
-      Messenger.Default.Register<Events.ProjectSelected>(this, projectSelectedEventHandler);
-      Messenger.Default.Register<Events.ProjectCreated>(this, projectCreatedEventHandler);
+      Messenger.Default.Register<Events.DatabaseSelected>(this, databaseSelectedEventHandler);
+      Messenger.Default.Register<Events.DatabaseCreated>(this, databaseCreatedEventHandler);
     }
 
-    private void projectSelectedEventHandler(Events.ProjectSelected projectSelectedEvent) {
+    private void databaseSelectedEventHandler(Events.DatabaseSelected databaseSelectedEvent) {
       TablesTab.IsSelected = true;
-      this.Title = "Taikun Demo - " + projectSelectedEvent.Project.DatabaseName;
+      this.Title = "Taikun Demo - " + databaseSelectedEvent.Database.DatabaseName;
     }
 
-    private void projectCreatedEventHandler(Events.ProjectCreated projectCreatedEvent) {
-      ProjectsTab.IsSelected = true;
+    private void databaseCreatedEventHandler(Events.DatabaseCreated databaseCreatedEvent) {
+      DatabasesTab.IsSelected = true;
     }
   }
 }

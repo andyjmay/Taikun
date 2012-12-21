@@ -1,5 +1,5 @@
 ﻿namespace Taikun {
-  public interface IProject {
+  public interface IDatabase {
     string DatabaseName { get; set; }
     string Description { get; set; }
   }

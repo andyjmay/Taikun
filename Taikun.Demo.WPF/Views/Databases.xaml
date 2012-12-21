@@ -1,25 +1,25 @@
-﻿<UserControl x:Class="Taikun.Demo.WPF.Views.Projects"
+﻿<UserControl x:Class="Taikun.Demo.WPF.Views.Databases"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
              d:DesignHeight="400" d:DesignWidth="600"
-             x:Name="ProjectsView"
-             DataContext="{Binding Projects, Source={StaticResource Locator}}">
+             x:Name="DatabasesView"
+             DataContext="{Binding Databases, Source={StaticResource Locator}}">
   <Grid>
     <Grid.RowDefinitions>
       <RowDefinition Height="30" />
       <RowDefinition Height="*" />
     </Grid.RowDefinitions>
     <StackPanel Grid.Row="0" Orientation="Horizontal">
-      <TextBlock Text="Current Projects" Style="{StaticResource TextBlockStyle}"  FontSize="18" />
+      <TextBlock Text="Current databases" Style="{StaticResource TextBlockStyle}"  FontSize="18" />
     </StackPanel>
-    <ListBox Grid.Row="1" ItemsSource="{Binding Projects}" SelectedItem="{Binding SelectedProject}">
+    <ListBox Grid.Row="1" ItemsSource="{Binding Databases}" SelectedItem="{Binding SelectedDatabase}">
       <ListBox.ItemTemplate>
         <DataTemplate>
           <StackPanel Orientation="Horizontal" Margin="5">
-            <Button Content="Select" Command="{Binding DataContext.SelectProject, RelativeSource={RelativeSource AncestorType=UserControl, Mode=FindAncestor}}" CommandParameter="{Binding}" />
+            <Button Content="Select" Command="{Binding DataContext.SelectDatabase, RelativeSource={RelativeSource AncestorType=UserControl, Mode=FindAncestor}}" CommandParameter="{Binding}" />
             <StackPanel Margin="10,0,0,0">
               <TextBlock Text="{Binding DatabaseName}" FontSize="16" />
               <TextBlock Text="{Binding Description}" FontSize="12" />

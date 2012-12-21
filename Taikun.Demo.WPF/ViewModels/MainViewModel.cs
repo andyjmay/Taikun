@@ -7,22 +7,22 @@ using GalaSoft.MvvmLight.Messaging;
 
 namespace Taikun.Demo.WPF.ViewModels {
   public class MainViewModel : ViewModelBase {
-    private bool projectIsSelected;
-    public bool ProjectIsSelected {
-      get { return projectIsSelected; }
+    private bool databaseIsSelected;
+    public bool DatabaseIsSelected {
+      get { return databaseIsSelected; }
       set {
-        projectIsSelected = value;
-        RaisePropertyChanged(() => ProjectIsSelected);
+        databaseIsSelected = value;
+        RaisePropertyChanged(() => DatabaseIsSelected);
       }
     }
 
     public MainViewModel() {
-      ProjectIsSelected = false;
-      Messenger.Default.Register<Events.ProjectSelected>(this, projectSelectedEventHandler);
+      DatabaseIsSelected = false;
+      Messenger.Default.Register<Events.DatabaseSelected>(this, databaseSelectedEventHandler);
     }
 
-    private void projectSelectedEventHandler(Events.ProjectSelected projectSelectedEvent) {
-      ProjectIsSelected = true;
+    private void databaseSelectedEventHandler(Events.DatabaseSelected databaseSelectedEvent) {
+      DatabaseIsSelected = true;
     }
   }
 }

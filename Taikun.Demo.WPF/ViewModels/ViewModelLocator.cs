@@ -7,12 +7,12 @@ namespace Taikun.Demo.WPF.ViewModels {
   public class ViewModelLocator {
     public ViewModelLocator() {
       ServiceLocator.SetLocatorProvider(() => SimpleIoc.Default);            
-      SimpleIoc.Default.Register<IProjectManager>(() => new SqlServerProjectManager(Settings.Default.TaikunDatabase), true);            
-      SimpleIoc.Default.Register<CreateProjectTableViewModel>(true);
-      SimpleIoc.Default.Register<ViewProjectTableViewModel>(true);
-      SimpleIoc.Default.Register<CreateProjectViewModel>(true);
-      SimpleIoc.Default.Register<ProjectTablesViewModel>(true);
-      SimpleIoc.Default.Register<ProjectsViewModel>(true);
+      SimpleIoc.Default.Register<IDatabaseManager>(() => new SqlServerDatabaseManager(Settings.Default.TaikunDatabase), true);            
+      SimpleIoc.Default.Register<CreateDatabaseTableViewModel>(true);
+      SimpleIoc.Default.Register<ViewDatabaseTableViewModel>(true);
+      SimpleIoc.Default.Register<CreateDatabaseViewModel>(true);
+      SimpleIoc.Default.Register<DatabaseTablesViewModel>(true);
+      SimpleIoc.Default.Register<DatabasesViewModel>(true);
       SimpleIoc.Default.Register<MainViewModel>(true);
     }
 
@@ -20,24 +20,24 @@ namespace Taikun.Demo.WPF.ViewModels {
       get { return ServiceLocator.Current.GetInstance<MainViewModel>(); }
     }
     
-    public ProjectsViewModel Projects {
-      get { return ServiceLocator.Current.GetInstance<ProjectsViewModel>(); }
+    public DatabasesViewModel Databases {
+      get { return ServiceLocator.Current.GetInstance<DatabasesViewModel>(); }
     }
 
-    public CreateProjectViewModel CreateProject {
-      get { return ServiceLocator.Current.GetInstance<CreateProjectViewModel>(); }
+    public CreateDatabaseViewModel CreateDatabase {
+      get { return ServiceLocator.Current.GetInstance<CreateDatabaseViewModel>(); }
     }
 
-    public CreateProjectTableViewModel CreateProjectTable {
-      get { return ServiceLocator.Current.GetInstance<CreateProjectTableViewModel>(); }
+    public CreateDatabaseTableViewModel CreateDatabaseTable {
+      get { return ServiceLocator.Current.GetInstance<CreateDatabaseTableViewModel>(); }
     }
 
-    public ViewProjectTableViewModel ViewProjectTable {
-      get { return ServiceLocator.Current.GetInstance<ViewProjectTableViewModel>(); }
+    public ViewDatabaseTableViewModel ViewDatabaseTable {
+      get { return ServiceLocator.Current.GetInstance<ViewDatabaseTableViewModel>(); }
     }
 
-    public ProjectTablesViewModel ProjectTables {
-      get { return ServiceLocator.Current.GetInstance<ProjectTablesViewModel>(); }
+    public DatabaseTablesViewModel DatabaseTables {
+      get { return ServiceLocator.Current.GetInstance<DatabaseTablesViewModel>(); }
     }
   }
 }

@@ -76,33 +76,33 @@
     <Compile Include="Converters\InverseBooleanToVisibilityConverter.cs" />
     <Compile Include="Converters\InverseNullToVisibilityConverter.cs" />
     <Compile Include="Converters\NullToVisibilityConverter.cs" />
-    <Compile Include="Events\ProjectCreated.cs" />
-    <Compile Include="Events\ProjectSelected.cs" />
-    <Compile Include="Events\ProjectTableCreated.cs" />
-    <Compile Include="Events\ProjectTableSelected.cs" />
+    <Compile Include="Events\DatabaseCreated.cs" />
+    <Compile Include="Events\DatabaseSelected.cs" />
+    <Compile Include="Events\DatabaseTableCreated.cs" />
+    <Compile Include="Events\DatabaseTableSelected.cs" />
     <Compile Include="Models\SqlServerTableColumn.cs" />
-    <Compile Include="ViewModels\CreateProjectTableViewModel.cs" />
-    <Compile Include="ViewModels\CreateProjectViewModel.cs" />
+    <Compile Include="ViewModels\CreateDatabaseTableViewModel.cs" />
+    <Compile Include="ViewModels\CreateDatabaseViewModel.cs" />
     <Compile Include="ViewModels\ProjectsViewModel.cs" />
-    <Compile Include="ViewModels\ProjectTablesViewModel.cs" />
-    <Compile Include="ViewModels\ViewProjectTableViewModel.cs" />
-    <Compile Include="Views\CreateProject.xaml.cs">
-      <DependentUpon>CreateProject.xaml</DependentUpon>
+    <Compile Include="ViewModels\DatabaseTablesViewModel.cs" />
+    <Compile Include="ViewModels\ViewDatabaseTableViewModel.cs" />
+    <Compile Include="Views\CreateDatabase.xaml.cs">
+      <DependentUpon>CreateDatabase.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\CreateProjectTable.xaml.cs">
-      <DependentUpon>CreateProjectTable.xaml</DependentUpon>
+    <Compile Include="Views\CreateDatabaseTable.xaml.cs">
+      <DependentUpon>CreateDatabaseTable.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Main.xaml.cs">
       <DependentUpon>Main.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Projects.xaml.cs">
-      <DependentUpon>Projects.xaml</DependentUpon>
+    <Compile Include="Views\Databases.xaml.cs">
+      <DependentUpon>Databases.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\ProjectTables.xaml.cs">
-      <DependentUpon>ProjectTables.xaml</DependentUpon>
+    <Compile Include="Views\DatabaseTables.xaml.cs">
+      <DependentUpon>DatabaseTables.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\ViewProjectTable.xaml.cs">
-      <DependentUpon>ViewProjectTable.xaml</DependentUpon>
+    <Compile Include="Views\ViewDatabaseTable.xaml.cs">
+      <DependentUpon>ViewDatabaseTable.xaml</DependentUpon>
     </Compile>
     <Page Include="Resources\Colors.xaml">
       <SubType>Designer</SubType>
@@ -112,11 +112,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\CreateProject.xaml">
+    <Page Include="Views\CreateDatabase.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\CreateProjectTable.xaml">
+    <Page Include="Views\CreateDatabaseTable.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -134,15 +134,15 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\Projects.xaml">
+    <Page Include="Views\Databases.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\ProjectTables.xaml">
+    <Page Include="Views\DatabaseTables.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\ViewProjectTable.xaml">
+    <Page Include="Views\ViewDatabaseTable.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

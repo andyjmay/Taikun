@@ -14,10 +14,10 @@ using System.Windows.Shapes;
 
 namespace Taikun.Demo.WPF.Views {
   /// <summary>
-  /// Interaction logic for CreateProjectTable.xaml
+  /// Interaction logic for DatabaseTables.xaml
   /// </summary>
-  public partial class CreateProjectTable : UserControl {
-    public CreateProjectTable() {
+  public partial class DatabaseTables : UserControl {
+    public DatabaseTables() {
       InitializeComponent();
     }
   }

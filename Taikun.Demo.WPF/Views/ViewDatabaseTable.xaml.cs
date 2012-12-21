@@ -9,14 +9,15 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 namespace Taikun.Demo.WPF.Views {
   /// <summary>
-  /// Interaction logic for Projects.xaml
+  /// Interaction logic for ViewDatabaseTable.xaml
   /// </summary>
-  public partial class Projects : UserControl {
-    public Projects() {
+  public partial class ViewDatabaseTable : UserControl {
+    public ViewDatabaseTable() {
       InitializeComponent();
     }
   }
