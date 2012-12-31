@@ -12,7 +12,7 @@ var databaseManager = new SqlServerDatabaseManager(connectionString, createIfNot
 
 // Create a new database
 string databaseName = "Test";
-IDatabase database = databaseManager.CreateDatabase(new SqlServerDatabase(databaseManager, databaseName) {
+var database = databaseManager.CreateDatabase(new SqlServerDatabase(databaseManager, databaseName) {
     Description = "This is a test"
 });
 
@@ -22,6 +22,6 @@ dataTable.Columns.Add("ID", typeof(int));
 dataTable.PrimaryKey = new DataColumn[] { dataTable.Columns["ID"] };
 dataTable.Columns.Add("Something", typeof(string));
 dataTable.Columns.Add(new DataColumn("VeryLongText", typeof(string)){ MaxLength = int.MaxValue });    
-IDatabaseTable table = new SqlServerDatabaseTable(dataTable);
+var table = new SqlServerDatabaseTable(dataTable);
 database.CreateDatabaseTable(table);
 ```
