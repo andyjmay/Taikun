@@ -1,13 +1,13 @@
 ﻿using System.Collections.Generic;
 
 namespace Taikun {
-  public interface IDatabaseManager {
+  public interface IDatabaseManager<T> {
     bool DatabaseExists(string databaseName);
-    IEnumerable<IDatabase> GetAllDatabases();
-    IDatabase GetDatabase(string databaseName);
-    IDatabase CreateDatabase(IDatabase database);    
-    IDatabase UpdateDatabase(IDatabase database);
-    void DeleteDatabase(IDatabase database);
+    IEnumerable<T> GetAllDatabases();
+    T GetDatabase(string databaseName);
+    T CreateDatabase(T database);
+    T UpdateDatabase(T database);
+    void DeleteDatabase(T database);
 
     string GetDatabaseConnectionString(string databaseName);
   }

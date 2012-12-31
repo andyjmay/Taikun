@@ -6,10 +6,10 @@ using Taikun.SqlServer;
 
 namespace Taikun.Demo.WPF.ViewModels {
   public class ViewDatabaseTableViewModel : ViewModelBase {
-    private readonly IDatabaseManager databaseManager;
+    private readonly IDatabaseManager<SqlServerDatabase> databaseManager;
 
-    private IDatabase selectedDatabase;
-    public IDatabase SelectedDatabase {
+    private SqlServerDatabase selectedDatabase;
+    public SqlServerDatabase SelectedDatabase {
       get { return selectedDatabase; }
       set {
         selectedDatabase = value;
@@ -37,7 +37,7 @@ namespace Taikun.Demo.WPF.ViewModels {
 
     public RelayCommand LoadTableData { get; private set; }
 
-    public ViewDatabaseTableViewModel(IDatabaseManager databaseManager) {
+    public ViewDatabaseTableViewModel(IDatabaseManager<SqlServerDatabase> databaseManager) {
       this.databaseManager = databaseManager;
 
       LoadTableData = new RelayCommand(loadDatabaseTableData, () => SelectedDatabaseTable != null);

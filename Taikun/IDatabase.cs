@@ -1,14 +1,14 @@
 ﻿using System.Collections.Generic;
 
 namespace Taikun {
-  public interface IDatabase {
+  public interface IDatabase<T> where T : IDatabaseTable {
     string Name { get; }
     string Description { get; set; }
 
     bool DatabaseTableExists(string tableName);
-    void CreateDatabaseTable(IDatabaseTable databaseTable);
-    IDatabaseTable GetDatabaseTable(string tableName, bool loadData);
-    IEnumerable<IDatabaseTable> GetDatabaseTables();
-    void DeleteDatabaseTable(IDatabaseTable databaseTable);
+    T CreateDatabaseTable(T databaseTable);
+    T GetDatabaseTable(string tableName, bool loadData);
+    IEnumerable<T> GetDatabaseTables();
+    void DeleteDatabaseTable(T databaseTable);
   }
 }

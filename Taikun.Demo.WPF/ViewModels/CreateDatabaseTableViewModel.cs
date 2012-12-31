@@ -10,7 +10,7 @@ using Taikun.SqlServer;
 
 namespace Taikun.Demo.WPF.ViewModels {
   public class CreateDatabaseTableViewModel : ViewModelBase {
-    private readonly IDatabaseManager databaseManager;
+    private readonly IDatabaseManager<SqlServerDatabase> databaseManager;
 
     private string tableName;
     public string TableName {
@@ -30,8 +30,8 @@ namespace Taikun.Demo.WPF.ViewModels {
       }
     }
 
-    private IDatabase selectedDatabase;
-    public IDatabase SelectedDatabase {
+    private SqlServerDatabase selectedDatabase;
+    public SqlServerDatabase SelectedDatabase {
       get { return selectedDatabase; }
       set {
         selectedDatabase = value;
@@ -45,7 +45,7 @@ namespace Taikun.Demo.WPF.ViewModels {
     public RelayCommand RemoveColumn { get; private set; }
     public RelayCommand CreateDatabaseTable { get; private set; }
 
-    public CreateDatabaseTableViewModel(IDatabaseManager databaseManager) {
+    public CreateDatabaseTableViewModel(IDatabaseManager<SqlServerDatabase> databaseManager) {
       this.databaseManager = databaseManager;
       if (!IsInDesignMode) {
         DatabaseColumns = new ObservableCollection<SqlServerTableColumn>();

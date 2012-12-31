@@ -6,9 +6,9 @@ using GalaSoft.MvvmLight.Messaging;
 
 namespace Taikun.Demo.WPF.ViewModels {
   public class DatabasesViewModel : ViewModelBase {
-    private readonly IDatabaseManager databaseManager;
+    private readonly IDatabaseManager<SqlServerDatabase> databaseManager;
 
-    public ObservableCollection<IDatabase> Databases { get; private set; }
+    public ObservableCollection<SqlServerDatabase> Databases { get; private set; }
 
     //private SqlServerDatabase selectedDatabase;
     //public SqlServerDatabase selectedDatabase {
@@ -19,19 +19,19 @@ namespace Taikun.Demo.WPF.ViewModels {
     //  }
     //}
 
-    public RelayCommand<IDatabase> SelectDatabase { get; private set; } 
+    public RelayCommand<SqlServerDatabase> SelectDatabase { get; private set; } 
 
-    public DatabasesViewModel(IDatabaseManager databaseManager) {
+    public DatabasesViewModel(IDatabaseManager<SqlServerDatabase> databaseManager) {
       this.databaseManager = databaseManager;
-      SelectDatabase = new RelayCommand<IDatabase>((database) => {
+      SelectDatabase = new RelayCommand<SqlServerDatabase>((database) => {
         var databaseSelected = new Events.DatabaseSelected(database);
         Messenger.Default.Send<Events.DatabaseSelected>(databaseSelected);
       });
 
       if (!IsInDesignMode) {
-        Databases = new ObservableCollection<IDatabase>(databaseManager.GetAllDatabases());
+        Databases = new ObservableCollection<SqlServerDatabase>(databaseManager.GetAllDatabases());
       } else {
-        Databases = new ObservableCollection<IDatabase> {
+        Databases = new ObservableCollection<SqlServerDatabase> {
           new SqlServerDatabase(databaseManager, "Test") {
             Description = "This is a test"
           },
@@ -55,7 +55,7 @@ namespace Taikun.Demo.WPF.ViewModels {
 
     private void databaseCreatedEventHandler(Events.DatabaseCreated databaseCreatedEvent) {
       Databases.Clear();
-      foreach (IDatabase database in databaseManager.GetAllDatabases()) {
+      foreach (SqlServerDatabase database in databaseManager.GetAllDatabases()) {
         Databases.Add(database);
       }
     }

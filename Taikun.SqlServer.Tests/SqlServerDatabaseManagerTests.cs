@@ -15,11 +15,11 @@ namespace Taikun.SqlServer.Tests {
     [TestMethod]
     public void GetAllDatabases_GetsAllDatabases() {
       var databaseManager = new SqlServerDatabaseManager(connectionStringBuilder.ConnectionString, true);
-      var createdDatabases = new List<IDatabase>();
+      var createdDatabases = new List<SqlServerDatabase>();
       for (int i = 0; i < 10; i++) {
         createdDatabases.Add(databaseManager.CreateDatabase(getRandomDatabase(databaseManager)));
       }
-      IEnumerable<IDatabase> databases = databaseManager.GetAllDatabases();
+      IEnumerable<SqlServerDatabase> databases = databaseManager.GetAllDatabases();
       Assert.IsTrue(databases.Any());
       deleteAllDatabases();
     }
@@ -27,12 +27,12 @@ namespace Taikun.SqlServer.Tests {
     [TestMethod]
     public void GetDatabase_GetsDatabase() {
       var databaseManager = new SqlServerDatabaseManager(connectionStringBuilder.ConnectionString, true);
-      var createdDatabases = new List<IDatabase>();
+      var createdDatabases = new List<SqlServerDatabase>();
       for (int i = 0; i < 10; i++) {
         createdDatabases.Add(databaseManager.CreateDatabase(getRandomDatabase(databaseManager)));
       }
-      IDatabase databaseToFind = createdDatabases[new Random().Next(0, createdDatabases.Count - 1)];
-      IDatabase databaseFound = databaseManager.GetDatabase(databaseToFind.Name);
+      SqlServerDatabase databaseToFind = createdDatabases[new Random().Next(0, createdDatabases.Count - 1)];
+      SqlServerDatabase databaseFound = databaseManager.GetDatabase(databaseToFind.Name);
       Assert.AreEqual(databaseToFind.Name, databaseFound.Name);
       Assert.AreEqual(databaseToFind.Description, databaseFound.Description);
       deleteAllDatabases();
@@ -41,7 +41,7 @@ namespace Taikun.SqlServer.Tests {
     [TestMethod]
     public void CreateDatabase_CreatesDatabase() {
       var databaseManager = new SqlServerDatabaseManager(connectionStringBuilder.ConnectionString, true);
-      IDatabase createdDatabase = databaseManager.CreateDatabase(getRandomDatabase(databaseManager));
+      SqlServerDatabase createdDatabase = databaseManager.CreateDatabase(getRandomDatabase(databaseManager));
       Assert.IsNotNull(createdDatabase);
       Assert.IsTrue(databaseExists(createdDatabase.Name));
       deleteAllDatabases();
@@ -50,12 +50,12 @@ namespace Taikun.SqlServer.Tests {
     [TestMethod]
     public void UpdateDatabase_UpdatesDatabase() {
       var databaseManager = new SqlServerDatabaseManager(connectionStringBuilder.ConnectionString, true);
-      IDatabase createdDatabase = databaseManager.CreateDatabase(getRandomDatabase(databaseManager));
+      SqlServerDatabase createdDatabase = databaseManager.CreateDatabase(getRandomDatabase(databaseManager));
       string newDescription = DateTime.Now.ToFileTimeUtc().ToString();
       createdDatabase.Description = newDescription;
       databaseManager.UpdateDatabase(createdDatabase);
 
-      IDatabase updatedDatabase = databaseManager.GetDatabase(createdDatabase.Name);
+      SqlServerDatabase updatedDatabase = databaseManager.GetDatabase(createdDatabase.Name);
       databaseManager.DeleteDatabase(createdDatabase);
       Assert.AreEqual(createdDatabase.Description, updatedDatabase.Description);
       deleteAllDatabases();
@@ -64,19 +64,19 @@ namespace Taikun.SqlServer.Tests {
     [TestMethod]
     public void DeleteDatabase_DeletesDatabase() {
       var databaseManager = new SqlServerDatabaseManager(connectionStringBuilder.ConnectionString, true);
-      IDatabase createdDatabase = databaseManager.CreateDatabase(getRandomDatabase(databaseManager));
+      SqlServerDatabase createdDatabase = databaseManager.CreateDatabase(getRandomDatabase(databaseManager));
       databaseManager.DeleteDatabase(createdDatabase);
       Assert.IsFalse(databaseExists(createdDatabase.Name));
     }
 
     private void deleteAllDatabases() {
       var databaseManager = new SqlServerDatabaseManager(connectionStringBuilder.ConnectionString, true);
-      foreach (IDatabase database in databaseManager.GetAllDatabases()) {
+      foreach (SqlServerDatabase database in databaseManager.GetAllDatabases()) {
         databaseManager.DeleteDatabase(database);
       }
     }
 
-    private IDatabase getRandomDatabase(IDatabaseManager databaseManager) {
+    private SqlServerDatabase getRandomDatabase(IDatabaseManager<SqlServerDatabase> databaseManager) {
       string databaseName = Guid.NewGuid().ToString();
       return new SqlServerDatabase(databaseManager, databaseName) {
         Description = DateTime.Now.ToFileTimeUtc().ToString()

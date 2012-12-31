@@ -25,15 +25,15 @@ namespace Taikun.Demo.WPF.ViewModels {
         
     public RelayCommand CreateDatabase { get; private set; }
 
-    private IDatabaseManager databaseManager;
+    private IDatabaseManager<SqlServerDatabase> databaseManager;
 
-    public CreateDatabaseViewModel(IDatabaseManager databaseManager) {
+    public CreateDatabaseViewModel(IDatabaseManager<SqlServerDatabase> databaseManager) {
       this.databaseManager = databaseManager;
       CreateDatabase = new RelayCommand(createDatabase, () => { return (!string.IsNullOrWhiteSpace(DatabaseName)); });
     }
 
     private void createDatabase() {
-      IDatabase database = databaseManager.CreateDatabase(new SqlServerDatabase(databaseManager, DatabaseName) {
+      SqlServerDatabase database = databaseManager.CreateDatabase(new SqlServerDatabase(databaseManager, DatabaseName) {
         Description = DatabaseDescription
       });
       Messenger.Default.Send<Events.DatabaseCreated>(new Events.DatabaseCreated(database));

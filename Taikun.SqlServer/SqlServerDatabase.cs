@@ -1,18 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Text;
 using Taikun.SqlServer.Helpers;
 
 namespace Taikun.SqlServer {
-  public class SqlServerDatabase : IDatabase {
+  public class SqlServerDatabase : IDatabase<SqlServerDatabaseTable> {
     public int Id { get; set; }
     public string Name { get; private set; }
     public string Description { get; set; }
     public string ConnectionString { get; private set; }
 
-    public SqlServerDatabase(IDatabaseManager databaseManager, string name) {
+    public SqlServerDatabase(IDatabaseManager<SqlServerDatabase> databaseManager, string name) {
       this.Name = name;
       this.ConnectionString = databaseManager.GetDatabaseConnectionString(name);
     }
@@ -33,10 +32,7 @@ namespace Taikun.SqlServer {
     /// </summary>
     /// <param name="database"></param>
     /// <param name="databaseTable"></param>
-    public void CreateDatabaseTable(IDatabaseTable databaseTable) {
-      if (!(databaseTable is SqlServerDatabaseTable)) {
-        throw new ArgumentException("The database table must be a SQL database table");
-      }
+    public SqlServerDatabaseTable CreateDatabaseTable(SqlServerDatabaseTable databaseTable) {
       var sqlServerDatabaseTable = databaseTable as SqlServerDatabaseTable;
       var createTableBuilder = new StringBuilder(string.Format("CREATE TABLE [{0}] (", sqlServerDatabaseTable.Name));
       foreach (DataColumn column in sqlServerDatabaseTable.Schema.Columns) {
@@ -57,6 +53,7 @@ namespace Taikun.SqlServer {
         createTableBuilder.Append(")");
       }
       createTableBuilder.Append(")");
+      
       using (var connection = new SqlConnection(ConnectionString)) {
         using (var command = new SqlCommand(createTableBuilder.ToString(), connection)) {
           connection.Open();
@@ -72,9 +69,35 @@ namespace Taikun.SqlServer {
           }
         }
       }
+      return sqlServerDatabaseTable;
     }
 
-    public IDatabaseTable GetDatabaseTable(string tableName, bool loadData) {
+    public void AddConstraint(SqlServerDatabaseTable sqlServerDatabaseTable) {
+      var createRelationshipBuilder = new StringBuilder();
+      if (sqlServerDatabaseTable.Schema.Constraints.Count > 0) {
+        foreach (var constraint in sqlServerDatabaseTable.Schema.Constraints) {
+          if (constraint is ForeignKeyConstraint) {
+            var foreignKeyConstraint = constraint as ForeignKeyConstraint;
+            createRelationshipBuilder.Append(string.Format(
+              " ALTER TABLE [{0}] ADD CONSTRAINT {1} FOREIGN KEY ([{2}]) REFERENCES [{3}] ([{4}]) ",
+                foreignKeyConstraint.Columns[0].Table, foreignKeyConstraint.ConstraintName, foreignKeyConstraint.Columns[0].ColumnName,
+                foreignKeyConstraint.RelatedColumns[0].Table, foreignKeyConstraint.RelatedColumns[0].ColumnName));
+          }
+        }
+      }
+      if (createRelationshipBuilder.Length > 0) {
+        using (var connection = new SqlConnection(ConnectionString)) {
+          using (var command = new SqlCommand(createRelationshipBuilder.ToString(), connection)) {
+            if (connection.State != ConnectionState.Open) {
+              connection.Open();
+            }
+            command.ExecuteNonQuery();
+          }
+        }
+      }
+    }
+
+    public SqlServerDatabaseTable GetDatabaseTable(string tableName, bool loadData) {
       string selectQuery;
       if (loadData) {
         selectQuery = string.Format("SELECT * FROM [{0}]", tableName);
@@ -92,9 +115,9 @@ namespace Taikun.SqlServer {
       }
     }
 
-    public IEnumerable<IDatabaseTable> GetDatabaseTables() {
+    public IEnumerable<SqlServerDatabaseTable> GetDatabaseTables() {
       string selectQuery = "SELECT * FROM sys.Tables";
-      var databaseTables = new List<IDatabaseTable>();
+      var databaseTables = new List<SqlServerDatabaseTable>();
       using (var connection = new SqlConnection(ConnectionString)) {
         using (var command = new SqlCommand(selectQuery, connection)) {
           connection.Open();
@@ -112,7 +135,7 @@ namespace Taikun.SqlServer {
     /// </summary>
     /// <param name="database"></param>
     /// <param name="databaseTable"></param>
-    public void DeleteDatabaseTable(IDatabaseTable databaseTable) {
+    public void DeleteDatabaseTable(SqlServerDatabaseTable databaseTable) {
       string deleteCommand = string.Format("DROP TABLE [{0}]", databaseTable.Name);
       using (var connection = new SqlConnection(ConnectionString)) {
         using (var command = new SqlCommand(deleteCommand, connection)) {

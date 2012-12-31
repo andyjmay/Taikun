@@ -7,7 +7,7 @@ using Taikun.SqlServer;
 
 namespace Taikun.Demo.WPF.ViewModels {
   public class DatabaseTablesViewModel : ViewModelBase {
-    readonly IDatabaseManager databaseManager;
+    readonly IDatabaseManager<SqlServerDatabase> databaseManager;
     
     private IDatabaseTable selectedTable;
     public IDatabaseTable SelectedTable {
@@ -19,8 +19,8 @@ namespace Taikun.Demo.WPF.ViewModels {
       }
     }
 
-    private IDatabase selectedDatabase;
-    public IDatabase SelectedDatabase {
+    private SqlServerDatabase selectedDatabase;
+    public SqlServerDatabase SelectedDatabase {
       get { return selectedDatabase; }
       set {
         selectedDatabase = value;
@@ -43,7 +43,7 @@ namespace Taikun.Demo.WPF.ViewModels {
     public RelayCommand CancelCreateNewTable { get; private set; }
     public RelayCommand CreateNewTable { get; private set; }
     
-    public DatabaseTablesViewModel(IDatabaseManager databaseManager) {
+    public DatabaseTablesViewModel(IDatabaseManager<SqlServerDatabase> databaseManager) {
       this.databaseManager = databaseManager;
       CreatingNewTable = false;
       if (!IsInDesignMode) {
@@ -72,7 +72,7 @@ namespace Taikun.Demo.WPF.ViewModels {
     private void databaseSelectedEventHandler(Events.DatabaseSelected databaseSelectedEvent) {
       Tables.Clear();
       SelectedDatabase = databaseSelectedEvent.Database;
-      foreach (IDatabaseTable databaseTable in SelectedDatabase.GetDatabaseTables()) {
+      foreach (SqlServerDatabaseTable databaseTable in SelectedDatabase.GetDatabaseTables()) {
         Tables.Add(databaseTable);
       }
     }

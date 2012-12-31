@@ -4,7 +4,7 @@ using System.Data;
 using System.Data.SqlClient;
 
 namespace Taikun.SqlServer {
-  public class SqlServerDatabaseManager : IDatabaseManager {
+  public class SqlServerDatabaseManager : IDatabaseManager<SqlServerDatabase> {
     private readonly SqlConnectionStringBuilder connectionStringBuilder;
 
     /// <summary>
@@ -46,8 +46,8 @@ namespace Taikun.SqlServer {
     /// Gets all Databases
     /// </summary>
     /// <returns></returns>
-    public IEnumerable<IDatabase> GetAllDatabases() {
-      var databases = new List<IDatabase>();
+    public IEnumerable<SqlServerDatabase> GetAllDatabases() {
+      var databases = new List<SqlServerDatabase>();
       string queryString = "SELECT ID, Name, Description FROM Databases";
 
       using (var connection = new SqlConnection(connectionStringBuilder.ConnectionString)) {       
@@ -72,7 +72,7 @@ namespace Taikun.SqlServer {
     /// </summary>
     /// <param name="databaseName"></param>
     /// <returns></returns>
-    public IDatabase GetDatabase(string databaseName) {
+    public SqlServerDatabase GetDatabase(string databaseName) {
       string queryString = "SELECT ID, Name, Description FROM Databases WHERE Name=@Name";
 
       using (var connection = new SqlConnection(connectionStringBuilder.ConnectionString)) {
@@ -94,7 +94,7 @@ namespace Taikun.SqlServer {
     /// </summary>
     /// <param name="database">The database to create</param>
     /// <returns></returns>
-    public IDatabase CreateDatabase(IDatabase database) {
+    public SqlServerDatabase CreateDatabase(SqlServerDatabase database) {
       string insertCommand = "INSERT INTO Databases (Name, Description) Values (@Name, @Description); SELECT SCOPE_IDENTITY()";
       createDatabase(database.Name);
       using (var connection = new SqlConnection(connectionStringBuilder.ConnectionString)) {
@@ -116,7 +116,7 @@ namespace Taikun.SqlServer {
     /// </summary>
     /// <param name="database">The database to update</param>
     /// <returns>Updated database</returns>
-    public IDatabase UpdateDatabase(IDatabase database) {
+    public SqlServerDatabase UpdateDatabase(SqlServerDatabase database) {
       string updateCommand = "UPDATE Databases SET Description=@Description WHERE Name=@Name";
       using (var connection = new SqlConnection(connectionStringBuilder.ConnectionString)) {
         using (var command = new SqlCommand(updateCommand, connection)) {
@@ -133,7 +133,7 @@ namespace Taikun.SqlServer {
     /// Deletes the database from Taikun and drops the Database
     /// </summary>
     /// <param name="database">database to delete</param>
-    public void DeleteDatabase(IDatabase database) {
+    public void DeleteDatabase(SqlServerDatabase database) {
       string deleteDatabaseCommand = string.Format("DELETE FROM [Databases] WHERE [Name]='{0}'", database.Name);
       using (var connection = new SqlConnection(connectionStringBuilder.ConnectionString)) {
         using (var command = new SqlCommand(deleteDatabaseCommand, connection)) {
