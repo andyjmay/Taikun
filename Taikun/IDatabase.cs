@@ -7,8 +7,8 @@ namespace Taikun {
 
     bool DatabaseTableExists(string tableName);
     T CreateDatabaseTable(T databaseTable);
-    T GetDatabaseTable(string tableName, bool loadData);
+    T GetDatabaseTable(string tableName);
     IEnumerable<T> GetDatabaseTables();
-    void DeleteDatabaseTable(T databaseTable);
+    void DeleteDatabaseTable(string tableName);
   }
 }

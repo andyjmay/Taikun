@@ -12,20 +12,20 @@
       <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary>
           <vm:ViewModelLocator x:Key="Locator" d:IsDataSource="True" />
-        </ResourceDictionary>        
-        <ResourceDictionary Source="/Resources\Colors.xaml" />
-        <ResourceDictionary Source="/Resources\Icons.xaml" />
-        <ResourceDictionary Source="/Resources\Styles.xaml" />
-        <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Fonts.xaml" />
-        <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.xaml" />
-        <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/BaseDark.xaml" />
-        <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.AnimatedTabControl.xaml" />
+        </ResourceDictionary>
         <ResourceDictionary>
           <BooleanToVisibilityConverter x:Key="boolToVisibility" />
           <Converters:InverseBooleanToVisibilityConverter x:Key="inverseBoolToVisibility" />
           <Converters:NullToVisibilityConverter x:Key="nullToVisibility" />
           <Converters:InverseNullToVisibilityConverter x:Key="inverseNullToVisibility" />
         </ResourceDictionary>
+        <ResourceDictionary Source="Resources\Colors.xaml" />
+        <ResourceDictionary>
+          <Style x:Key="TextBlockStyle" TargetType="TextBlock">
+            <Setter Property="Foreground" Value="{StaticResource GrayBrush1}" />
+          </Style>
+        </ResourceDictionary>
+        <ResourceDictionary Source="Resources\Icons.xaml" />
       </ResourceDictionary.MergedDictionaries>
     </ResourceDictionary>
   </Application.Resources>

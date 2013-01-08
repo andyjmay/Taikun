@@ -2,7 +2,7 @@
 using System.Data;
 
 namespace Taikun.SqlServer.Helpers {
-  public static class DataTypeExtensions {
+  internal static class DataTypeExtensions {
     public static string GetSqlType(this DataColumn dataColumn) {
       switch (dataColumn.DataType.ToString()) {
         case "System.String":

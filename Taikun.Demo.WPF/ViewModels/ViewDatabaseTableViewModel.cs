@@ -6,8 +6,6 @@ using Taikun.SqlServer;
 
 namespace Taikun.Demo.WPF.ViewModels {
   public class ViewDatabaseTableViewModel : ViewModelBase {
-    private readonly IDatabaseManager<SqlServerDatabase> databaseManager;
-
     private SqlServerDatabase selectedDatabase;
     public SqlServerDatabase SelectedDatabase {
       get { return selectedDatabase; }
@@ -37,9 +35,7 @@ namespace Taikun.Demo.WPF.ViewModels {
 
     public RelayCommand LoadTableData { get; private set; }
 
-    public ViewDatabaseTableViewModel(IDatabaseManager<SqlServerDatabase> databaseManager) {
-      this.databaseManager = databaseManager;
-
+    public ViewDatabaseTableViewModel() {
       LoadTableData = new RelayCommand(loadDatabaseTableData, () => SelectedDatabaseTable != null);
       Messenger.Default.Register<Events.DatabaseSelected>(this, databaseSelectedEventHandler);
       Messenger.Default.Register<Events.DatabaseTableSelected>(this, databaseTableSelectedEventHandler);
@@ -53,7 +49,7 @@ namespace Taikun.Demo.WPF.ViewModels {
 
     private void databaseTableSelectedEventHandler(Events.DatabaseTableSelected databaseTableSelectedEvent) {
       if (databaseTableSelectedEvent.DatabaseTable != null) {
-        var table = SelectedDatabase.GetDatabaseTable(databaseTableSelectedEvent.DatabaseTable.Name, loadData: false) as SqlServerDatabaseTable;
+        var table = SelectedDatabase.GetDatabaseTable(databaseTableSelectedEvent.DatabaseTable.Name);
         if (table != null) {
           SelectedDatabaseTable = table;
           SelectedTableData = table.Schema;
@@ -63,10 +59,9 @@ namespace Taikun.Demo.WPF.ViewModels {
         SelectedTableData = null;
       }
     }
-    
+
     private void loadDatabaseTableData() {
-      IDatabaseTable databaseTableWithData = SelectedDatabase.GetDatabaseTable(SelectedDatabaseTable.Name, loadData: true);
-      SelectedTableData = ((SqlServerDatabaseTable)databaseTableWithData).Schema;
+      SelectedTableData = SelectedDatabase.GetDataTable(SelectedDatabaseTable.Name, loadData: true);
     }
 
     public override void Cleanup() {

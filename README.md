@@ -11,10 +11,7 @@ string connectionString = @"Data Source=(local)\SQLEXPRESS;Initial Catalog=Taiku
 var databaseManager = new SqlServerDatabaseManager(connectionString, createIfNotExists: true);
 
 // Create a new database
-string databaseName = "Test";
-var database = databaseManager.CreateDatabase(new SqlServerDatabase(databaseManager, databaseName) {
-    Description = "This is a test"
-});
+var database = databaseManager.CreateDatabase(name: "Test", description: "This is a test");
 
 // Create a new table in the newly created database  
 DataTable dataTable = new DataTable("NewTable");
@@ -22,6 +19,5 @@ dataTable.Columns.Add("ID", typeof(int));
 dataTable.PrimaryKey = new DataColumn[] { dataTable.Columns["ID"] };
 dataTable.Columns.Add("Something", typeof(string));
 dataTable.Columns.Add(new DataColumn("VeryLongText", typeof(string)){ MaxLength = int.MaxValue });    
-var table = new SqlServerDatabaseTable(dataTable);
-database.CreateDatabaseTable(table);
+database.CreateDatabaseTable(new SqlServerDatabaseTable(databaseManager, dataTable));
 ```

@@ -5,6 +5,17 @@
                       xmlns:Views="clr-namespace:Taikun.Demo.WPF.Views" Title="Taikun Demo" 
                       Height="350" Width="525"
                       DataContext="{Binding Main, Source={StaticResource Locator}}">
+  <Controls:MetroWindow.Resources>
+    <ResourceDictionary>
+      <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Colours.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Fonts.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/Blue.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/BaseDark.xaml" />
+      </ResourceDictionary.MergedDictionaries>
+    </ResourceDictionary>
+  </Controls:MetroWindow.Resources>
   <Controls:MetroContentControl>
     <Grid>
       <TabControl>

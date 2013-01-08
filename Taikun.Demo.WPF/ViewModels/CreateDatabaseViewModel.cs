@@ -33,9 +33,7 @@ namespace Taikun.Demo.WPF.ViewModels {
     }
 
     private void createDatabase() {
-      SqlServerDatabase database = databaseManager.CreateDatabase(new SqlServerDatabase(databaseManager, DatabaseName) {
-        Description = DatabaseDescription
-      });
+      SqlServerDatabase database = databaseManager.CreateDatabase(DatabaseName, DatabaseDescription);
       Messenger.Default.Send<Events.DatabaseCreated>(new Events.DatabaseCreated(database));
     }
   }
