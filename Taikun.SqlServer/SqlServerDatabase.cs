@@ -120,7 +120,11 @@ namespace Taikun.SqlServer {
     }
 
     public SqlServerDatabaseTable GetDatabaseTable(string tableName) {
-      string selectQuery = string.Format("SELECT TOP 0 * FROM {0}", tableName);
+      return GetDatabaseTable("dbo", tableName);
+    }
+
+    public SqlServerDatabaseTable GetDatabaseTable(string schema, string tableName) {
+      string selectQuery = string.Format("SELECT TOP 0 * FROM [{0}]", tableName);
 
       using (var connection = new SqlConnection(ConnectionString)) {
         using (var dataAdapter = new SqlDataAdapter(selectQuery, connection)) {
@@ -140,7 +144,7 @@ namespace Taikun.SqlServer {
           connection.Open();
           SqlDataReader dataReader = command.ExecuteReader();
           while (dataReader.Read()) {
-            yield return GetDatabaseTable(dataReader["Namespace"] + "." + dataReader["TableName"]);
+            yield return GetDatabaseTable(dataReader["Namespace"].ToString(), dataReader["TableName"].ToString());
           }
         }
       }
