@@ -15,6 +15,7 @@
     </div>
     <div class="span9">
       <div id="selectedDatabase"></div>
+      <div id="selectedTable"></div>
     </div>
   </div>
 </div>
@@ -27,16 +28,39 @@
   </a>
 </script>
 
+<script type="text/template" id="table-template">
+  {{#each Tables}}
+    <li><a href="#/databases/{{DatabaseName}}/{{TableName}}">{{TableName}}</a><li>
+  {{/each}}
+</script>
+
 <script type="text/template" id="selected-database-template">
   <h3>{{Name}}</h3>
   <em>{{Description}}</em>
   
   <div class="table-list">
     <strong>Tables</strong>
-    <ul class="unstyled">
-      {{#each Tables}}
-      <li>{{this}}</li>
-      {{/each}}
-    </ul>
+    <ul id="tables" class="unstyled"></ul>
   </div>
+</script>
+
+<script type="text/template" id="selected-table-template">
+  <table id="columns" class="table table-striped">
+    <thead>
+      <tr>
+        <th>Column Name</th>
+        <th>Data Type</th>
+        <th>Max Length</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each Columns}}
+        <tr>
+          <td>{{ColumnName}}</td>
+          <td>{{DataType}}</td>
+          <td>{{MaxLength}}</td>
+        </tr>
+      {{/each}}
+    </tbody>
+  </table>
 </script>

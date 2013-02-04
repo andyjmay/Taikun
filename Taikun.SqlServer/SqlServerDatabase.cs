@@ -15,7 +15,7 @@ namespace Taikun.SqlServer {
     public string Description { get; set; }
     public string ConnectionString { get; private set; }
 
-    internal SqlServerDatabase(IDatabaseManager<SqlServerDatabase> databaseManager, string name) {
+    internal SqlServerDatabase(IDatabaseManager<SqlServerDatabase, SqlServerDatabaseTable> databaseManager, string name) {
       this.Name = name;
       this.ConnectionString = databaseManager.GetDatabaseConnectionString(name);
     }

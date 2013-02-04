@@ -1,15 +1,14 @@
 ﻿using System.Collections.Generic;
-using System.Configuration;
 using System.Linq;
 using System.Web.Http;
 using Taikun.SqlServer;
 
 namespace Taikun.Demo.Web.Controllers {
   public class DatabasesController : ApiController {
-    private readonly IDatabaseManager<SqlServerDatabase> databaseManager;
+    private readonly SqlServerDatabaseManager databaseManager;
 
-    public DatabasesController() {
-      databaseManager = new SqlServerDatabaseManager(ConfigurationManager.ConnectionStrings["Taikun"].ConnectionString, createIfNotExists: true);
+    public DatabasesController(SqlServerDatabaseManager databaseManager) {
+      this.databaseManager = databaseManager;
     }
 
     public IEnumerable<Models.Database> Get() {

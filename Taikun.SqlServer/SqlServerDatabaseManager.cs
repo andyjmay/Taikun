@@ -4,7 +4,7 @@ using System.Data;
 using System.Data.SqlClient;
 
 namespace Taikun.SqlServer {
-  public class SqlServerDatabaseManager : IDatabaseManager<SqlServerDatabase> {
+  public class SqlServerDatabaseManager : IDatabaseManager<SqlServerDatabase, SqlServerDatabaseTable> {
     private readonly SqlConnectionStringBuilder connectionStringBuilder;
 
     /// <summary>

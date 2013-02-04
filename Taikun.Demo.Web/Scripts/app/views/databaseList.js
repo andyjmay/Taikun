@@ -16,6 +16,14 @@
       this.collection.on('add', this.renderDatabase, this);
     },
 
+    events:  {
+      "click" : "handleClick"
+    },
+    
+    handleClick: function(e) {
+      var i = 0;
+    },
+
     render: function () {
       var that = this;
       _.each(this.collection.models, function(database) {

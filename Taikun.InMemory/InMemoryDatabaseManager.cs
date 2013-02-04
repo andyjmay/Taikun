@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 namespace Taikun.InMemory {
-  public class InMemoryDatabaseManager : IDatabaseManager<InMemoryDatabase> {
+  public class InMemoryDatabaseManager : IDatabaseManager<InMemoryDatabase, InMemoryDatabaseTable> {
     private readonly List<InMemoryDatabase> databases;
  
     public InMemoryDatabaseManager() {

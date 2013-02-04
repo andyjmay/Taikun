@@ -6,7 +6,10 @@ using System.Web.Http;
 namespace Taikun.Demo.Web {
   public static class WebApiConfig {
     public static void Register(HttpConfiguration config) {
-      
+      config.Routes.MapHttpRoute(
+        name: "TablesApi",
+        routeTemplate: "api/{controller}/{name}/{tableName}"
+      );
 
       config.Routes.MapHttpRoute(
           name: "DefaultApi",

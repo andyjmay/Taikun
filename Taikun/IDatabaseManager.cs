@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 
 namespace Taikun {
-  public interface IDatabaseManager<T> {
+  public interface IDatabaseManager<out T, T1> where T : IDatabase<T1> where T1 : IDatabaseTable {
     bool DatabaseExists(string name);
     IEnumerable<T> GetAllDatabases();
     T GetDatabase(string name);
